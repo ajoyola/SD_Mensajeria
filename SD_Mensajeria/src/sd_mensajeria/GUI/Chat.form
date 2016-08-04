@@ -75,12 +75,12 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="jButton4" min="-2" pref="90" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="jButton2" min="-2" pref="90" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                           <Component id="Txt_texto" min="-2" pref="451" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                           <Component id="jButton3" min="-2" pref="125" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="43" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jScrollPane1" max="32767" attributes="0"/>
@@ -99,8 +99,10 @@
                   <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="jButton3" pref="60" max="32767" attributes="0"/>
-                      <Component id="Txt_texto" max="32767" attributes="0"/>
-                      <Component id="jButton4" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="Txt_texto" alignment="3" max="32767" attributes="0"/>
+                          <Component id="jButton2" alignment="3" min="-2" pref="56" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -125,12 +127,10 @@
                       <Component id="User_foto" min="-2" pref="126" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="estado_lbl" alignment="0" min="-2" pref="151" max="-2" attributes="0"/>
                           <Component id="nombre_contacto_lbl" alignment="0" min="-2" pref="151" max="-2" attributes="0"/>
+                          <Component id="estado_lbl" alignment="0" min="-2" pref="151" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="129" max="-2" attributes="0"/>
-                      <Component id="jButton2" min="-2" pref="90" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="224" max="-2" attributes="0"/>
                       <Component id="jButton1" min="-2" pref="103" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
                   </Group>
@@ -139,12 +139,9 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace pref="24" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jButton1" alignment="3" min="-2" pref="56" max="-2" attributes="0"/>
-                              <Component id="jButton2" alignment="3" min="-2" pref="56" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="jButton1" min="-2" pref="56" max="-2" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Component id="nombre_contacto_lbl" min="-2" pref="29" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -178,12 +175,9 @@
                 <Property name="text" type="java.lang.String" value="Opciones"/>
                 <Property name="name" type="java.lang.String" value="btn_opciones" noResource="true"/>
               </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="jButton2">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Adjunto"/>
-                <Property name="name" type="java.lang.String" value="btn_adjunto" noResource="true"/>
-              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="User_foto">
               <Properties>
@@ -235,10 +229,10 @@
             <Property name="name" type="java.lang.String" value="txt_mensaje" noResource="true"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton4">
+        <Component class="javax.swing.JButton" name="jButton2">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Emoticon"/>
-            <Property name="name" type="java.lang.String" value="btn_emoticon" noResource="true"/>
+            <Property name="text" type="java.lang.String" value="Adjunto"/>
+            <Property name="name" type="java.lang.String" value="btn_adjunto" noResource="true"/>
           </Properties>
         </Component>
       </SubComponents>
