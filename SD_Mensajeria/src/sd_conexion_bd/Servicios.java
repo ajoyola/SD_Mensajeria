@@ -33,7 +33,7 @@ public class Servicios extends SQLQuery{
     
     public boolean validar_userName(String userName, String password, usuario u) throws IOException{
         try{
-            this.conectar("localhost:3306", "mensajeria","root","");
+            this.conectar("localhost:3306", "mensajeria","root","1234");
             //System.out.println("\n" + userName+ " " + password + "\n");
             this.consulta=this.conexion.prepareStatement("call buscar_por_user(\""+userName+"\",\""+password+"\");");
             this.datos=this.consulta.executeQuery();
@@ -66,7 +66,7 @@ public class Servicios extends SQLQuery{
     */
     public void cargar_contactos(JList lista, String userName, int u_id){
         try{
-            this.conectar("localhost:3306", "mensajeria","root","");
+            this.conectar("localhost:3306", "mensajeria","root","1234");
             this.consulta=this.conexion.prepareStatement("call consultar_contactos(\""+userName+"\",\""+u_id+"\");");
             this.datos=this.consulta.executeQuery();
             DefaultListModel modelo = new DefaultListModel();
@@ -88,7 +88,7 @@ public class Servicios extends SQLQuery{
            
             File file = new File(foto);
             fis = new  FileInputStream(file);
-            this.conectar("localhost:3306", "mensajeria","root","");
+            this.conectar("localhost:3306", "mensajeria","root","1234");
             this.consulta=this.conexion.prepareStatement("call registrar_usuario(\""+nombre+"\",\""+apellido+"\",\""+ciudad+"\",\""+user+"\",\""+pass+"\",\""+foto+"\");");
             this.datos=this.consulta.executeQuery();
             
@@ -99,5 +99,61 @@ public class Servicios extends SQLQuery{
             JOptionPane.showMessageDialog(null, "No se pudo conectar correctamente a la base de datos");
         }        
     }
+    //------------
+     /**
+      * funcion para obtener los datos del contacto del usuario del chat
+    */
+    public boolean dato_contacto(String nombre, String apellido, usuario u) throws IOException{
+        try{
+            this.conectar("localhost:3306", "mensajeria","root","1234");
+            this.consulta=this.conexion.prepareStatement("call obtener_info_contacto(\""+nombre+"\",\""+apellido+"\");");
+            this.datos=this.consulta.executeQuery();
+            while(this.datos.next()){
+                u.setID(datos.getInt("id"));
+                u.setNombre(nombre);
+                u.setApellido(apellido);
+                u.setUser(datos.getString("user"));
+                u.setEst_conexion(datos.getString("estado_conexion").charAt(0));
+                u.setFecha_ult_conexion(datos.getTimestamp("fecha_ult_conexion"));
+                Blob imagen = datos.getBlob("foto");
+                if (imagen != null){
+                    Image im = javax.imageio.ImageIO.read(imagen.getBinaryStream());
+                    ImageIcon i = new ImageIcon(im.getScaledInstance(100,120, 0));
+                    u.setFoto(i);                
+                }
+                return true;
+            }return false;  
+        }catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(Servicios.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "No se pudo conectar correctamente a la base de datos");
+            System.exit(0);
+        }return false;              
+    }
     
+    /**
+     * procedimiento que agrega a una lista el historial de mensajes del chat entre dos personas     
+     */
+    public void obtener_historial_msj(JList lista, int user_id, int contacto_id, String nombre){
+        String str;
+        try{
+            this.conectar("localhost:3306", "mensajeria","root","1234");
+            this.consulta=this.conexion.prepareStatement("call obtener_historial_msj(\""+user_id+"\",\""+contacto_id+"\");");
+            this.datos=this.consulta.executeQuery();
+            DefaultListModel modelo = new DefaultListModel();
+            while(this.datos.next()){
+                if(datos.getInt("emisor_id")==user_id){
+                    str ="Tu: "+datos.getString("texto");
+                    modelo.addElement(str);  
+                }else{
+                    str =nombre+": "+datos.getString("texto");
+                    modelo.addElement(str);
+                }
+            }
+            lista.setModel(modelo);
+        }
+        catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(Servicios.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "No se pudo conectar correctamente a la base de datos");
+        }        
+    }
 }

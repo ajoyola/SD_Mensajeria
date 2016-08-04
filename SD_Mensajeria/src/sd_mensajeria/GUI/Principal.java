@@ -15,11 +15,11 @@ import sd_mensajeria.usuario;
  * @author User
  */
 public class Principal extends javax.swing.JFrame {
-
+    Servicios s;
     /**
      * Creates new form Principal
      */
-    public Principal(Servicios s, String datos, usuario UserInfo) {
+    public Principal(Servicios serv, String datos, usuario UserInfo) {
         super("JavaChat");
         initComponents();
         String userName = UserInfo.getUser();
@@ -29,10 +29,11 @@ public class Principal extends javax.swing.JFrame {
         User_name_label.setText(UserInfo.getNombre()+UserInfo.getApellido());
         User_label2.setText(userName.toUpperCase());
         User_foto.setIcon(o);
-        
+        this.s=serv;
         s.cargar_contactos(contactos_lista, userName, u_id);
         contactos_lista.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jScrollPane_contactos.setViewportView(contactos_lista);
+        
     }
 
     /**

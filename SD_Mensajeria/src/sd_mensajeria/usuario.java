@@ -6,6 +6,7 @@
 package sd_mensajeria;
 
 import java.awt.Image;
+import java.sql.Timestamp;
 import javax.swing.ImageIcon;
 
 /**
@@ -18,6 +19,8 @@ public class usuario {
     public String apellido;
     public String user;
     public String ciudad;
+    public char est_conexion;
+    public Timestamp fecha_ult_conexion;
     public ImageIcon foto;
 
     public usuario() {
@@ -29,7 +32,22 @@ public class usuario {
         this.user = user;
         this.ciudad = ciudad;
     }
-   
+    public char getEst_conexion() {
+        return est_conexion;
+    }
+
+    public void setEst_conexion(char est_conexion) {
+        this.est_conexion = est_conexion;
+    }
+
+    public Timestamp getFecha_ult_conexion() {
+        return fecha_ult_conexion;
+    }
+
+    public void setFecha_ult_conexion(Timestamp fecha_ult_conexion) {
+        this.fecha_ult_conexion = fecha_ult_conexion;
+    }
+    
     public String getCiudad() {
         return ciudad;
     }
