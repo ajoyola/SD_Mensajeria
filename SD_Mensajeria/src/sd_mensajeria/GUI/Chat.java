@@ -23,6 +23,7 @@ public class Chat extends javax.swing.JFrame {
      * Creates new form Chat
      */
     public Chat(String info) {// info del usuario sera colocada como nombre y su respectivo estado de conexion, el historial y foto
+        super("Java Chat");
         initComponents();
         this.setLocationRelativeTo(null);
         super.setTitle("JavaChat");

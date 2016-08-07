@@ -15,6 +15,7 @@ public class Agregar_Contacto extends javax.swing.JFrame {
      * Creates new form Agregar_Contacto
      */
     public Agregar_Contacto() {
+        super("Java Chat");
         initComponents();
         this.setLocationRelativeTo(null);
     }

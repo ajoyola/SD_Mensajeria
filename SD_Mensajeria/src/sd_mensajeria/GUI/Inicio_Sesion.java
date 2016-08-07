@@ -37,7 +37,8 @@ public class Inicio_Sesion extends javax.swing.JFrame {
      * Creates new form Inicio_Sesion
      */
     public Inicio_Sesion() {
-        initComponents();
+        super("Java Chat");
+        initComponents();        
         this.setLocationRelativeTo(null);
     }
 

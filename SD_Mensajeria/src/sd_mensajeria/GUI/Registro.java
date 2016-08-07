@@ -26,6 +26,7 @@ public class Registro extends javax.swing.JFrame {
      * Creates new form Registro
      */
     public Registro() {
+        super("Java Chat");
         initComponents();
         this.setLocationRelativeTo(null);
     }

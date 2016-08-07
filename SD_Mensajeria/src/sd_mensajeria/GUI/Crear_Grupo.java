@@ -25,6 +25,7 @@ public class Crear_Grupo extends javax.swing.JFrame {
      * Creates new form Crear_Grupo
      */
     public Crear_Grupo(Servicios serv, JList contactos_lista, int userID) {
+        super("Java Chat");
         initComponents();
         this.setLocationRelativeTo(null);
         this.s=serv;
@@ -236,7 +237,8 @@ public class Crear_Grupo extends javax.swing.JFrame {
         }else{
             //enviar datos a la base
             if(s.registrar_grupo(nombre,desc,integrantes_lista, creadorID)){
-                JOptionPane.showMessageDialog(null, "Se ha creado el grupo" +nombre,"JAVA CHAT - INFORMATION", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Se ha creado el grupo: " +nombre,"Java Chat - Información", JOptionPane.INFORMATION_MESSAGE);
+                this.dispose();
             }else{
                 JOptionPane.showMessageDialog(null, "No pudo ser creado el grupo" + nombre,"JAVA CHAT - INFORMATION", JOptionPane.ERROR_MESSAGE);
             }

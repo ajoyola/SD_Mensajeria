@@ -15,6 +15,7 @@ public class Buscar_Contacto extends javax.swing.JFrame {
      * Creates new form Buscar_Contacto
      */
     public Buscar_Contacto() {
+        super("Java Chat");
         initComponents();
         this.setLocationRelativeTo(null);
     }

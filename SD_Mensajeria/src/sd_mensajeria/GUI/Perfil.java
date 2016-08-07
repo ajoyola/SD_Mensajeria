@@ -18,6 +18,7 @@ public class Perfil extends javax.swing.JFrame {
      * Creates new form Perfil
      */
     public Perfil() {
+        super("Java Chat");
         initComponents();
         this.setLocationRelativeTo(null);
     }
