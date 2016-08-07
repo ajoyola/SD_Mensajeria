@@ -19,6 +19,7 @@ public class Perfil extends javax.swing.JFrame {
      */
     public Perfil() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -50,7 +51,8 @@ public class Perfil extends javax.swing.JFrame {
         btn_cargar = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 

@@ -17,6 +17,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Blob;
+import java.sql.CallableStatement;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -155,5 +157,39 @@ public class Servicios extends SQLQuery{
             Logger.getLogger(Servicios.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "No se pudo conectar correctamente a la base de datos");
         }        
+    }
+    public boolean registrar_grupo(String nombre,String descripcion, JList integrantes_lista, int creadorID){
+        //registrar grupo
+        int id_grupo=0;
+        String nomb_apellido;
+        try{
+            conexion = DriverManager.getConnection("jdbc:mysql://"+ "localhost:3306"+ "/"+ "mensajeria","root","1234");
+            String sql = "{call registrar_grupo(?, ?, ?, ?)}";
+            CallableStatement cstmt = conexion.prepareCall(sql);     
+            //CallableStatement cstmt= conexion.prepareCall("{call registrar_grupo(\""+nombre+"\",\""+descripcion+"\",\""+creadorID+"\",\""+id_grupo+"\")}");
+            cstmt.setString(1, nombre);
+            cstmt.setString(2, descripcion);
+            cstmt.setInt(3, creadorID);
+            // Because parameter is OUT so register it
+            cstmt.registerOutParameter(4, java.sql.Types.INTEGER);
+            cstmt.execute();//retorna el id del grupo por el parametro tipo out del procedure
+            id_grupo = cstmt.getInt(4);
+            if(id_grupo!=0){
+                //agregar uno a uno los integrantes con el id respectivo (while)
+                for(int i=0; i<integrantes_lista.getModel().getSize(); i++){
+                    nomb_apellido = (String)integrantes_lista.getModel().getElementAt(i);
+                    this.consulta=this.conexion.prepareStatement("call registrar_integrante(\""+nomb_apellido+"\",\""+creadorID+"\",\""+id_grupo+"\");");
+                    this.consulta.executeUpdate();//ingresa uno a uno los integrantes
+                }
+            }else{
+                JOptionPane.showMessageDialog(null, "No se pudo registrar el grupo");
+            }            //no se ingreso el grupo
+            this.conexion.close();
+            return true;
+        }catch (SQLException ex) {
+            Logger.getLogger(Servicios.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "No se pudo conectar correctamente a la base de datos");
+        }        
+        return false;    
     }
 }

@@ -16,6 +16,7 @@ public class Buscar_Contacto extends javax.swing.JFrame {
      */
     public Buscar_Contacto() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -36,8 +37,8 @@ public class Buscar_Contacto extends javax.swing.JFrame {
         jList1 = new javax.swing.JList();
         jButton1 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(893, 495));
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
         jLabel1.setText("Buscar Contacto");

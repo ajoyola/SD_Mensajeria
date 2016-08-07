@@ -16,6 +16,7 @@ public class Agregar_Contacto extends javax.swing.JFrame {
      */
     public Agregar_Contacto() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -38,7 +39,8 @@ public class Agregar_Contacto extends javax.swing.JFrame {
         btn_buscar1 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 

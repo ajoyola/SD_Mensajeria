@@ -38,6 +38,7 @@ public class Inicio_Sesion extends javax.swing.JFrame {
      */
     public Inicio_Sesion() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -59,6 +60,7 @@ public class Inicio_Sesion extends javax.swing.JFrame {
         txt_password = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 

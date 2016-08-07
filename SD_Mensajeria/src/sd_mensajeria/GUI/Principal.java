@@ -18,16 +18,17 @@ import javax.swing.*;
  */
 public class Principal extends javax.swing.JFrame {
     Servicios s;
+    int u_id;
     /**
      * Creates new form Principal
      */
     public Principal(Servicios serv, String datos, usuario UserInfo) {
         super("JavaChat");
         initComponents();
+        this.setLocationRelativeTo(null);
         String userName = UserInfo.getUser();
-        int u_id=UserInfo.getID();
+        u_id=UserInfo.getID();
         ImageIcon o = UserInfo.getFoto();
-        
         User_name_label1.setText(UserInfo.getNombre()+UserInfo.getApellido());
         User_name_label1.setText(userName.toUpperCase());
         User_foto.setIcon(o);
@@ -77,6 +78,7 @@ public class Principal extends javax.swing.JFrame {
         jMenu4.setText("jMenu4");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -318,7 +320,7 @@ public class Principal extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
        java.awt.EventQueue.invokeLater(new Runnable() {
                         public void run() {
-                            new Crear_Grupo().setVisible(true);                         
+                            new Crear_Grupo(s, contactos_lista, u_id).setVisible(true);                         
                         }
                     }); 
     }//GEN-LAST:event_jMenuItem1ActionPerformed

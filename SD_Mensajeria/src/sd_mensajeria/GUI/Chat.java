@@ -24,6 +24,7 @@ public class Chat extends javax.swing.JFrame {
      */
     public Chat(String info) {// info del usuario sera colocada como nombre y su respectivo estado de conexion, el historial y foto
         initComponents();
+        this.setLocationRelativeTo(null);
         super.setTitle("JavaChat");
         nombre_contacto_lbl.setText(info);
 
@@ -53,9 +54,7 @@ public class Chat extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
 
         setTitle("JavaChat");
-        setMaximumSize(new java.awt.Dimension(621, 430));
         setMinimumSize(new java.awt.Dimension(621, 430));
-        setPreferredSize(new java.awt.Dimension(893, 533));
         setResizable(false);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -162,7 +161,7 @@ public class Chat extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(Txt_texto)
+                        .addComponent(Txt_texto, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );

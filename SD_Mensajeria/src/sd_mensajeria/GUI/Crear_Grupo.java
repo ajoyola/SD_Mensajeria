@@ -10,6 +10,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import sd_conexion_bd.Servicios;
+import sd_mensajeria.usuario;
 
 /**
  *
@@ -17,13 +18,18 @@ import sd_conexion_bd.Servicios;
  */
 public class Crear_Grupo extends javax.swing.JFrame {
     Servicios s;
+    int creadorID;
     DefaultListModel modelo;
+    JList contactosDelUsuario;
     /**
      * Creates new form Crear_Grupo
      */
-    public Crear_Grupo(Servicios serv, JList contactos_lista) {
+    public Crear_Grupo(Servicios serv, JList contactos_lista, int userID) {
         initComponents();
+        this.setLocationRelativeTo(null);
         this.s=serv;
+        this.creadorID=userID;
+        this.contactosDelUsuario = contactos_lista;
         List_contactos.setVisible(false);
         jList_contactos.setVisible(false);
         modelo= new DefaultListModel();
@@ -56,9 +62,10 @@ public class Crear_Grupo extends javax.swing.JFrame {
         agregar_btn = new javax.swing.JButton();
         guardar_btn = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(893, 533));
         setPreferredSize(new java.awt.Dimension(893, 533));
+        setResizable(false);
         getContentPane().setLayout(null);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 48)); // NOI18N
@@ -168,7 +175,6 @@ public class Crear_Grupo extends javax.swing.JFrame {
         getContentPane().add(jLabel4);
         jLabel4.setBounds(470, 110, 81, 17);
 
-        tipiar_integrante.setText("jTextField2");
         tipiar_integrante.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tipiar_integranteActionPerformed(evt);
@@ -183,6 +189,8 @@ public class Crear_Grupo extends javax.swing.JFrame {
         tipiar_integrante.setBounds(570, 110, 210, 30);
 
         agregar_btn.setText("+");
+        agregar_btn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        agregar_btn.setBorderPainted(false);
         agregar_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 agregar_btnActionPerformed(evt);
@@ -199,7 +207,7 @@ public class Crear_Grupo extends javax.swing.JFrame {
             }
         });
         getContentPane().add(guardar_btn);
-        guardar_btn.setBounds(330, 430, 129, 37);
+        guardar_btn.setBounds(330, 430, 150, 37);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -227,18 +235,32 @@ public class Crear_Grupo extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Todos los campos son obligatorios","Error de Ingreso de Datos", JOptionPane.ERROR_MESSAGE);
         }else{
             //enviar datos a la base
-            //suscribir_grupo(nombre,desc,integrantes_lista);
+            if(s.registrar_grupo(nombre,desc,integrantes_lista, creadorID)){
+                JOptionPane.showMessageDialog(null, "Se ha creado el grupo" +nombre,"JAVA CHAT - INFORMATION", JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                JOptionPane.showMessageDialog(null, "No pudo ser creado el grupo" + nombre,"JAVA CHAT - INFORMATION", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }//GEN-LAST:event_guardar_btnActionPerformed
 
     private void tipiar_integranteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tipiar_integranteKeyReleased
         // TODO add your handling code here:
         JTextField j =(JTextField)evt.getSource();
+        String str1;
+        String str2 = j.getText();
+        DefaultListModel model = new DefaultListModel();
         if(!j.getText().equals("")){
-            System.out.println(j.getText());
-            //s.autobusqueda_contactos(j.getText(),integrantes_lista);
-            List_contactos.setVisible(true);
-            jList_contactos.setVisible(true);
+            for(int i=0; i<contactosDelUsuario.getModel().getSize(); i++){
+                str1 = (String)contactosDelUsuario.getModel().getElementAt(i);
+                if(str1.toLowerCase().contains(str2.toLowerCase())){
+                    model.addElement(str1);
+                }
+            }
+            if(!model.isEmpty()){
+                jList_contactos.setModel(model);
+                List_contactos.setVisible(true);
+                jList_contactos.setVisible(true);
+            }
         }else{
             List_contactos.setVisible(false);
         }
@@ -254,42 +276,6 @@ public class Crear_Grupo extends javax.swing.JFrame {
     private void integrantes_listaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_integrantes_listaMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_integrantes_listaMouseClicked
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Crear_Grupo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Crear_Grupo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Crear_Grupo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Crear_Grupo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                //new Crear_Grupo(new Servicios()).setVisible(true);
-            }
-        });
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane List_contactos;
     private javax.swing.JButton agregar_btn;
