@@ -74,6 +74,9 @@ public class Crear_Grupo extends javax.swing.JFrame {
         getContentPane().add(jLabel1);
         jLabel1.setBounds(40, 10, 329, 57);
 
+        jList_contactos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jList_contactos.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jList_contactos.setSelectionForeground(new java.awt.Color(255, 0, 0));
         jList_contactos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jList_contactosMouseClicked(evt);
@@ -270,9 +273,11 @@ public class Crear_Grupo extends javax.swing.JFrame {
 
     private void jList_contactosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList_contactosMouseClicked
         // TODO add your handling code here:
-        String str=(String)jList_contactos.getSelectedValue();
-        tipiar_integrante.setText(str);
-        List_contactos.setVisible(false);
+        if (evt.getClickCount() == 2){
+            String str=(String)jList_contactos.getSelectedValue();
+            tipiar_integrante.setText(str);
+            List_contactos.setVisible(false);
+        }
     }//GEN-LAST:event_jList_contactosMouseClicked
 
     private void integrantes_listaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_integrantes_listaMouseClicked
