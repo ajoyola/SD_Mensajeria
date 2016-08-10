@@ -20,6 +20,10 @@ import java.sql.Blob;
 import java.sql.CallableStatement;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -35,7 +39,7 @@ public class Servicios extends SQLQuery{
     
     public boolean validar_userName(String userName, String password, usuario u) throws IOException{
         try{
-            this.conectar("localhost:3306", "mensajeria","root","1234");
+            this.conectar("localhost:3306", "mensajeria","root","12345");
             //System.out.println("\n" + userName+ " " + password + "\n");
             this.consulta=this.conexion.prepareStatement("call buscar_por_user(\""+userName+"\",\""+password+"\");");
             this.datos=this.consulta.executeQuery();
@@ -68,7 +72,7 @@ public class Servicios extends SQLQuery{
     */
     public void cargar_contactos(JList lista, String userName, int u_id){
         try{
-            this.conectar("localhost:3306", "mensajeria","root","1234");
+            this.conectar("localhost:3306", "mensajeria","root","12345");
             this.consulta=this.conexion.prepareStatement("call consultar_contactos(\""+userName+"\",\""+u_id+"\");");
             this.datos=this.consulta.executeQuery();
             DefaultListModel modelo = new DefaultListModel();
@@ -90,7 +94,7 @@ public class Servicios extends SQLQuery{
            
             File file = new File(foto);
             fis = new  FileInputStream(file);
-            this.conectar("localhost:3306", "mensajeria","root","1234");
+            this.conectar("localhost:3306", "mensajeria","root","12345");
             this.consulta=this.conexion.prepareStatement("call registrar_usuario(\""+nombre+"\",\""+apellido+"\",\""+ciudad+"\",\""+user+"\",\""+pass+"\",\""+foto+"\");");
             this.datos=this.consulta.executeQuery();
             
@@ -107,7 +111,7 @@ public class Servicios extends SQLQuery{
     */
     public boolean dato_contacto(String nombre, String apellido, usuario u) throws IOException{
         try{
-            this.conectar("localhost:3306", "mensajeria","root","1234");
+            this.conectar("localhost:3306", "mensajeria","root","12345");
             this.consulta=this.conexion.prepareStatement("call obtener_info_contacto(\""+nombre+"\",\""+apellido+"\");");
             this.datos=this.consulta.executeQuery();
             while(this.datos.next()){
@@ -138,7 +142,7 @@ public class Servicios extends SQLQuery{
     public void obtener_historial_msj(JList lista, int user_id, int contacto_id, String nombre){
         String str;
         try{
-            this.conectar("localhost:3306", "mensajeria","root","1234");
+            this.conectar("localhost:3306", "mensajeria","root","12345");
             this.consulta=this.conexion.prepareStatement("call obtener_historial_msj(\""+user_id+"\",\""+contacto_id+"\");");
             this.datos=this.consulta.executeQuery();
             DefaultListModel modelo = new DefaultListModel();
@@ -163,7 +167,7 @@ public class Servicios extends SQLQuery{
         int id_grupo=0;
         String nomb_apellido;
         try{
-            conexion = DriverManager.getConnection("jdbc:mysql://"+ "localhost:3306"+ "/"+ "mensajeria","root","1234");
+            conexion = DriverManager.getConnection("jdbc:mysql://"+ "localhost:3306"+ "/"+ "mensajeria","root","12345");
             String sql = "{call registrar_grupo(?, ?, ?, ?)}";
             CallableStatement cstmt = conexion.prepareCall(sql);     
             //CallableStatement cstmt= conexion.prepareCall("{call registrar_grupo(\""+nombre+"\",\""+descripcion+"\",\""+creadorID+"\",\""+id_grupo+"\")}");
@@ -191,5 +195,49 @@ public class Servicios extends SQLQuery{
             JOptionPane.showMessageDialog(null, "No se pudo conectar correctamente a la base de datos");
         }        
         return false;    
+    }
+    
+    //------------
+     /**
+      * funcion para obtener usuarios mas frecuentes del chat
+    */
+        public void usuarios_frecuentes(int user_id, JList topFiveList){
+        int id_temp=0;
+        String msj;
+        ArrayList<Integer> id_user_conv = new ArrayList<>();     
+        ArrayList<String> user_data = new ArrayList<>(); 
+        try{
+            this.conectar("localhost:3306", "mensajeria","root","12345");
+            this.consulta=this.conexion.prepareStatement("call obtener_users_frecs(\""+user_id+"\");");
+            this.datos=this.consulta.executeQuery();
+            while(this.datos.next()){
+                id_temp = datos.getInt("destinatario_id");
+                id_user_conv.add(id_temp);
+                //System.out.println(id_temp + "  contador: " +id_temp_count);
+              
+            } 
+            
+            DefaultListModel modelo = new DefaultListModel();
+            
+            for (int a=0; a<id_user_conv.size(); a++) {
+                int id_userFav = id_user_conv.get(a);
+                this.consulta=this.conexion.prepareStatement("call obtener_usuario_porID(\""+id_userFav+"\");");
+                this.datos=this.consulta.executeQuery();
+                while(this.datos.next()) {
+                    String nombre = datos.getString("nombre");
+                    String apellido = datos.getString("apellido");
+                    String usuario = datos.getString("user");
+                    user_data.add(nombre + " " + apellido + " @" + usuario);
+                }
+            }
+            for (int b=0; b<user_data.size();b++) {
+                modelo.addElement(user_data.get(b));
+            }
+            topFiveList.setModel(modelo);          
+        }
+        catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(Servicios.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "No se pudo conectar correctamente a la base de datos");
+        }        
     }
 }

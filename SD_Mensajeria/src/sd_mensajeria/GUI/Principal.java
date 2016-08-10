@@ -230,6 +230,11 @@ public class Principal extends javax.swing.JFrame {
         jMenu1.add(jSeparator1);
 
         m_five.setText("Top Five");
+        m_five.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                m_fiveActionPerformed(evt);
+            }
+        });
         jMenu1.add(m_five);
 
         jMenuBar1.add(jMenu1);
@@ -259,7 +264,7 @@ public class Principal extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 913, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 913, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -324,6 +329,15 @@ public class Principal extends javax.swing.JFrame {
                         }
                     }); 
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void m_fiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_fiveActionPerformed
+        java.awt.EventQueue.invokeLater(new Runnable() {
+                        public void run() {
+                            new Top_Five(s, u_id).setVisible(true);                         
+                        }
+                    }); 
+// TODO add your handling code here:
+    }//GEN-LAST:event_m_fiveActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Panel_chats;
