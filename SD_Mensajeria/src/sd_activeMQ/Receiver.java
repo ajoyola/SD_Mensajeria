@@ -41,7 +41,7 @@ public class Receiver implements MessageListener{
         
         Properties env = new Properties();					   				env.put(Context.INITIAL_CONTEXT_FACTORY,
                         "org.apache.activemq.jndi.ActiveMQInitialContextFactory");
-        env.put(Context.PROVIDER_URL, "tcp://localhost:61616");
+        env.put(Context.PROVIDER_URL, "tcp://172.20.128.196:61616");
         env.put("queue.queueSampleQueue","Queue");
         // get the initial context
         InitialContext ctx = new InitialContext(env);
@@ -60,7 +60,7 @@ public class Receiver implements MessageListener{
 
         // create a queue receiver
         //QueueReceiver queueReceiver = queueSession.createReceiver(queue, selector);
-        QueueReceiver queueReceiver = queueSession.createReceiver(queue, "destinatario = 'Angely' ");
+        QueueReceiver queueReceiver = queueSession.createReceiver(queue, "destinatario = 'Joyce' ");
 
         // start the connection
         queueConn.start();
@@ -74,19 +74,15 @@ public class Receiver implements MessageListener{
     public void onMessage(Message message) {
     
     try {
-        
          // Get the data from the message
          TextMessage msg = (TextMessage)message;
          // print the message
 	System.out.println("Mensaje Recibido: " + msg.getText());
-        Chat c = new Chat("CHAT");
-        c.addChatToList(msg.getText()); // metodo que añade el mensaje a la lista del chat 
-        
+        //Chat c = new Chat();
+        //c.addChatToList(msg.getText()); // metodo que añade el mensaje a la lista del chat 
         // en esta parte se enviará el mensaje a la base de datos 
-        // ya que ya fue consumido por AMQ
-        
-        
-        c.setVisible(true);
+        // ya que ya fue consumido por AMQ      
+        //c.setVisible(true);
         
      } catch (JMSException jmse) {
          jmse.printStackTrace(); 

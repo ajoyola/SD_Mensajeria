@@ -11,6 +11,9 @@ import sd_conexion_bd.Servicios;
 import sd_mensajeria.usuario;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 /**
  *
@@ -288,13 +291,15 @@ public class Principal extends javax.swing.JFrame {
     private void contactos_listaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contactos_listaMouseClicked
         // TODO add your handling code here:
         String info = (String)contactos_lista.getSelectedValue();
-        String userInfo[] = info.split(" ", 2);
-        //System.out.print(userInfo[0]+"---"+userInfo[1]);
         //verificar si existe chat anterior si es asi abrirlo
         //sino mostrar una nueva ventana para el chat entre ellos
         //obtener estado del contacto
         if (evt.getClickCount() == 2){
-            new Chat(info).setVisible(true);//--------enviar info foto historial y estado del contacto
+            try {
+                new Chat(info, this.u_id ,this.s);
+            } catch (IOException ex) {
+                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_contactos_listaMouseClicked
 

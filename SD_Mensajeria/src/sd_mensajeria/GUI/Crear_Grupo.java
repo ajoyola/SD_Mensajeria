@@ -72,11 +72,8 @@ public class Crear_Grupo extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 48)); // NOI18N
         jLabel1.setText("Crear Grupo");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(40, 10, 329, 57);
+        jLabel1.setBounds(40, 10, 294, 58);
 
-        jList_contactos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jList_contactos.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jList_contactos.setSelectionForeground(new java.awt.Color(255, 0, 0));
         jList_contactos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jList_contactosMouseClicked(evt);
@@ -138,7 +135,7 @@ public class Crear_Grupo extends javax.swing.JFrame {
         );
 
         getContentPane().add(jPanel3);
-        jPanel3.setBounds(30, 110, 406, 300);
+        jPanel3.setBounds(30, 110, 401, 300);
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Integrantes Grupo", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 2, 14))); // NOI18N
 
@@ -177,7 +174,7 @@ public class Crear_Grupo extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setText("Integrante:");
         getContentPane().add(jLabel4);
-        jLabel4.setBounds(470, 110, 88, 17);
+        jLabel4.setBounds(470, 110, 81, 17);
 
         tipiar_integrante.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -211,7 +208,7 @@ public class Crear_Grupo extends javax.swing.JFrame {
             }
         });
         getContentPane().add(guardar_btn);
-        guardar_btn.setBounds(330, 430, 150, 39);
+        guardar_btn.setBounds(330, 430, 150, 37);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
