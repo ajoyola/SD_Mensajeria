@@ -5,19 +5,32 @@
  */
 package sd_mensajeria.GUI;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
+import javax.swing.JTextField;
+import sd_conexion_bd.Servicios;
+
 /**
  *
  * @author Kattya Desiderio
  */
 public class Buscar_Contacto extends javax.swing.JFrame {
-
+    JList contactosDelUsuario;
+    Servicios serv;
+    int user_id;
     /**
      * Creates new form Buscar_Contacto
      */
-    public Buscar_Contacto() {
+    public Buscar_Contacto(Servicios s, JList contactos_lista, int userID) {
         super("Java Chat");
         initComponents();
         this.setLocationRelativeTo(null);
+        this.contactosDelUsuario = contactos_lista;
+        this.serv=s;
+        this.user_id=userID;
     }
 
     /**
@@ -31,14 +44,16 @@ public class Buscar_Contacto extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        opcion_busqueda = new javax.swing.JComboBox();
+        tipiar_busqueda = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        integrantes_lista = new javax.swing.JList();
+        resultado_busqueda = new javax.swing.JList();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(419, 495));
+        setMinimumSize(new java.awt.Dimension(419, 495));
+        setPreferredSize(new java.awt.Dimension(419, 495));
         setResizable(false);
         getContentPane().setLayout(null);
 
@@ -52,42 +67,41 @@ public class Buscar_Contacto extends javax.swing.JFrame {
         getContentPane().add(jLabel2);
         jLabel2.setBounds(20, 100, 111, 17);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "nombre", "user", "ciudad" }));
-        jComboBox1.setToolTipText("");
-        jComboBox1.setName("cmb_criterio"); // NOI18N
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        opcion_busqueda.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "nombre", "user", "ciudad" }));
+        opcion_busqueda.setToolTipText("");
+        opcion_busqueda.setName("cmb_criterio"); // NOI18N
+        opcion_busqueda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                opcion_busquedaActionPerformed(evt);
             }
         });
-        getContentPane().add(jComboBox1);
-        jComboBox1.setBounds(150, 96, 93, 30);
+        getContentPane().add(opcion_busqueda);
+        opcion_busqueda.setBounds(150, 96, 93, 30);
 
-        jTextField1.setName("txt_criterio"); // NOI18N
-        getContentPane().add(jTextField1);
-        jTextField1.setBounds(150, 140, 200, 40);
-
-        jButton1.setBackground(new java.awt.Color(0, 153, 204));
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jButton1.setText("Agregar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        tipiar_busqueda.setName("txt_criterio"); // NOI18N
+        tipiar_busqueda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                tipiar_busquedaActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1);
-        jButton1.setBounds(100, 430, 202, 48);
+        tipiar_busqueda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tipiar_busquedaKeyReleased(evt);
+            }
+        });
+        getContentPane().add(tipiar_busqueda);
+        tipiar_busqueda.setBounds(150, 140, 200, 40);
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Resultado", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 2, 14))); // NOI18N
         jPanel4.setName("Resultado"); // NOI18N
 
-        integrantes_lista.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        integrantes_lista.addMouseListener(new java.awt.event.MouseAdapter() {
+        resultado_busqueda.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        resultado_busqueda.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                integrantes_listaMouseClicked(evt);
+                resultado_busquedaMouseClicked(evt);
             }
         });
-        jScrollPane3.setViewportView(integrantes_lista);
+        jScrollPane3.setViewportView(resultado_busqueda);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -112,67 +126,78 @@ public class Buscar_Contacto extends javax.swing.JFrame {
 
         getContentPane().add(jPanel4);
         jPanel4.setBounds(20, 200, 380, 220);
-        jPanel4.getAccessibleContext().setAccessibleName("Resultado");
         jPanel4.getAccessibleContext().setAccessibleDescription("");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void opcion_busquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opcion_busquedaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_opcion_busquedaActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void resultado_busquedaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resultado_busquedaMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
-
-    private void integrantes_listaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_integrantes_listaMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_integrantes_listaMouseClicked
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+        String contacto = (String)resultado_busqueda.getSelectedValue();
+        if (evt.getClickCount() == 2){
+            try {
+                new Chat(contacto, this.user_id ,this.serv);
+            } catch (IOException ex) {
+                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Buscar_Contacto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Buscar_Contacto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Buscar_Contacto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Buscar_Contacto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
+    }//GEN-LAST:event_resultado_busquedaMouseClicked
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Buscar_Contacto().setVisible(true);
+    private void tipiar_busquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tipiar_busquedaKeyReleased
+        // TODO add your handling code here:
+        JTextField j =(JTextField)evt.getSource();
+        int opcion;
+        String str1;
+        String str2 = j.getText();
+        DefaultListModel model = new DefaultListModel();
+        if(!j.getText().equals("")){
+            //vslidar opciones de busqueda
+            opcion = opcion_busqueda.getSelectedIndex();
+            switch(opcion){
+                case 0:
+                    for(int i=0; i<contactosDelUsuario.getModel().getSize(); i++){
+                        str1 = (String)contactosDelUsuario.getModel().getElementAt(i);
+                        if(str1.toLowerCase().contains(str2.toLowerCase())){
+                            model.addElement(str1);
+                        }
+                    }
+                    break;
+                case 1://busqueda por user
+                    this.serv.buscarPorUser( this.user_id, str2.toLowerCase(), model);
+                    break;
+                case 2://busqueda por ciudad
+                    this.serv.buscarPorCiudad( this.user_id, str2.toLowerCase(), model);
+                    break;
             }
-        });
-    }
+            if(!model.isEmpty()){//lista  con datos para mostrar
+                resultado_busqueda.setModel(model);
+                resultado_busqueda.setVisible(true);
+            }else{
+                model.clear();
+                resultado_busqueda.setModel(model);
+                resultado_busqueda.setVisible(true);
+            }
+        }else{//
+            model.clear();
+            resultado_busqueda.setModel(model);
+            resultado_busqueda.setVisible(true);
+        }
+    }//GEN-LAST:event_tipiar_busquedaKeyReleased
 
+    private void tipiar_busquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipiar_busquedaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tipiar_busquedaActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JList integrantes_lista;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JComboBox opcion_busqueda;
+    private javax.swing.JList resultado_busqueda;
+    private javax.swing.JTextField tipiar_busqueda;
     // End of variables declaration//GEN-END:variables
 }

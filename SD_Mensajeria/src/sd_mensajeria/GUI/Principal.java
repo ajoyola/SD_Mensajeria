@@ -304,11 +304,11 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_contactos_listaMouseClicked
 
     private void m_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_buscarActionPerformed
-       java.awt.EventQueue.invokeLater(new Runnable() {
-                        public void run() {
-                            new Buscar_Contacto().setVisible(true);                         
-                        }
-                    }); 
+          java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Buscar_Contacto(s,contactos_lista,u_id).setVisible(true);
+            }
+        });
     }//GEN-LAST:event_m_buscarActionPerformed
 
     private void m_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_agregarActionPerformed

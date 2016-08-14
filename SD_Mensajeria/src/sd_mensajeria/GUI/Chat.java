@@ -31,7 +31,7 @@ public class Chat extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         super.setTitle("JavaChat");
-        String contInfo[] = info.split(" ", 2);//obtiene por separado el nombre y el apellido
+        String contInfo[] = info.split(" ", 3);//obtiene por separado el nombre y el apellido
         if(serv.dato_contacto(contInfo[0],contInfo[1],contacto)){
             ImageIcon o = contacto.getFoto();
             User_foto.setIcon(o);

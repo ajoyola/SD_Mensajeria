@@ -29,9 +29,11 @@ import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.imageio.ImageIO;
+import javax.swing.DefaultListCellRenderer.UIResource;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import sd_mensajeria.usuario;
 
 public class Servicios extends SQLQuery{ 
@@ -66,7 +68,8 @@ public class Servicios extends SQLQuery{
             Logger.getLogger(Servicios.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "--No se pudo conectar correctamente a la base de datos");
             System.exit(0);
-        }return false;               
+        }
+        return false;               
     }
           
      /**
@@ -141,6 +144,7 @@ public class Servicios extends SQLQuery{
      */
     public void obtener_historial_msj(JList lista, int user_id, int contacto_id, String nombre){
         String str;
+        //UIResource posicion = new UIResource();
         try{
             this.conectar("localhost:3306", "mensajeria","root","1234");
             this.consulta=this.conexion.prepareStatement("call obtener_historial_msj(\""+user_id+"\",\""+contacto_id+"\");");
@@ -151,11 +155,13 @@ public class Servicios extends SQLQuery{
                     str ="Tu: "+datos.getString("texto");
                     modelo.addElement(str);  
                 }else{
+                    //posicion.setHorizontalAlignment(SwingConstants.CENTER);
                     str =nombre+": "+datos.getString("texto");
                     modelo.addElement(str);
                 }
             }
             lista.setModel(modelo);
+            //lista.setCellRenderer(posicion);
         }
         catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(Servicios.class.getName()).log(Level.SEVERE, null, ex);
@@ -234,6 +240,36 @@ public class Servicios extends SQLQuery{
                 modelo.addElement(user_data.get(b));
             }
             topFiveList.setModel(modelo);          
+        }
+        catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(Servicios.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "No se pudo conectar correctamente a la base de datos");
+        }        
+    }
+        
+    public void buscarPorUser( int user_id, String texto, DefaultListModel model){
+        try{
+            this.conectar("localhost:3306", "mensajeria","root","1234");
+            this.consulta=this.conexion.prepareStatement("call buscar_contacto_porUser(\""+user_id+"\",\""+texto+"\");");
+            this.datos=this.consulta.executeQuery();
+            while(this.datos.next()){
+                model.addElement(datos.getString("nombreCompleto") +"    >>> "+" User: "+datos.getString("user"));
+            }
+        }
+        catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(Servicios.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "No se pudo conectar correctamente a la base de datos");
+        }        
+    }
+    
+    public void buscarPorCiudad( int user_id, String texto, DefaultListModel model){
+        try{
+            this.conectar("localhost:3306", "mensajeria","root","1234");
+            this.consulta=this.conexion.prepareStatement("call buscar_contacto_porCiudad(\""+user_id+"\",\""+texto+"\");");
+            this.datos=this.consulta.executeQuery();
+            while(this.datos.next()){
+                model.addElement(datos.getString("nombreCompleto") +"    >>> "+" Ciudad: "+datos.getString("ciudad"));
+            }
         }
         catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(Servicios.class.getName()).log(Level.SEVERE, null, ex);
