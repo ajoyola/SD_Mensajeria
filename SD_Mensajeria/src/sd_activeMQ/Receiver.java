@@ -35,13 +35,11 @@ public class Receiver implements MessageListener{
     public Receiver(String nombre) throws Exception  {
         
         this.nombre = nombre;
-        this.selector = "destinatario = '";
-        this.selector.concat(nombre);
-        this.selector.concat("' ");
+        this.selector = ("destinatario = '" + nombre + "' ");
         
         Properties env = new Properties();					   				env.put(Context.INITIAL_CONTEXT_FACTORY,
                         "org.apache.activemq.jndi.ActiveMQInitialContextFactory");
-        env.put(Context.PROVIDER_URL, "tcp://172.20.128.196:61616");
+        env.put(Context.PROVIDER_URL, "tcp://localhost:61616");
         env.put("queue.queueSampleQueue","Queue");
         // get the initial context
         InitialContext ctx = new InitialContext(env);
@@ -59,8 +57,8 @@ public class Receiver implements MessageListener{
         queueSession = queueConn.createQueueSession(false,Session.AUTO_ACKNOWLEDGE);
 
         // create a queue receiver
-        //QueueReceiver queueReceiver = queueSession.createReceiver(queue, selector);
-        QueueReceiver queueReceiver = queueSession.createReceiver(queue, "destinatario = 'Joyce' ");
+        QueueReceiver queueReceiver = queueSession.createReceiver(queue, selector);
+        //QueueReceiver queueReceiver = queueSession.createReceiver(queue, "destinatario = 'Angely' ");
 
         // start the connection
         queueConn.start();

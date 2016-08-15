@@ -41,7 +41,7 @@ public class Servicios extends SQLQuery{
     
     public boolean validar_userName(String userName, String password, usuario u) throws IOException{
         try{
-            this.conectar("localhost:3306", "mensajeria","root","1234");
+            this.conectar("localhost:3306", "mensajeria","mensajeria","1234");
             //System.out.println("\n" + userName+ " " + password + "\n");
             this.consulta=this.conexion.prepareStatement("call buscar_por_user(\""+userName+"\",\""+password+"\");");
             this.datos=this.consulta.executeQuery();
@@ -78,7 +78,7 @@ public class Servicios extends SQLQuery{
     */
     public void cargar_contactos(JList lista, String userName, int u_id){
         try{
-            this.conectar("localhost:3306", "mensajeria","root","1234");
+            this.conectar("localhost:3306", "mensajeria","mensajeria","1234");
             this.consulta=this.conexion.prepareStatement("call consultar_contactos(\""+userName+"\",\""+u_id+"\");");
             this.datos=this.consulta.executeQuery();
             DefaultListModel modelo = new DefaultListModel();
@@ -99,7 +99,7 @@ public class Servicios extends SQLQuery{
          try{
             File file = new File(foto);
             fis = new  FileInputStream(file);
-            this.conectar("localhost:3306", "mensajeria","root","1234");
+            this.conectar("localhost:3306", "mensajeria","mensajeria","1234");
             this.consulta=this.conexion.prepareStatement("call registrar_usuario(\""+nombre+"\",\""+apellido+"\",\""+ciudad+"\",\""+user+"\",\""+pass+"\",\""+""+"\");");
             this.datos=this.consulta.executeQuery();
         }
@@ -114,7 +114,7 @@ public class Servicios extends SQLQuery{
     */
     public boolean dato_contacto(String nombre, String apellido, usuario u) throws IOException{
         try{
-            this.conectar("localhost:3306", "mensajeria","root","1234");
+            this.conectar("localhost:3306", "mensajeria","mensajeria","1234");
             this.consulta=this.conexion.prepareStatement("call obtener_info_contacto(\""+nombre+"\",\""+apellido+"\");");
             this.datos=this.consulta.executeQuery();
             while(this.datos.next()){
@@ -146,7 +146,7 @@ public class Servicios extends SQLQuery{
         String str;
         //UIResource posicion = new UIResource();
         try{
-            this.conectar("localhost:3306", "mensajeria","root","1234");
+            this.conectar("localhost:3306", "mensajeria","mensajeria","1234");
             this.consulta=this.conexion.prepareStatement("call obtener_historial_msj(\""+user_id+"\",\""+contacto_id+"\");");
             this.datos=this.consulta.executeQuery();
             DefaultListModel modelo = new DefaultListModel();
@@ -173,7 +173,7 @@ public class Servicios extends SQLQuery{
         int id_grupo=0;
         String nomb_apellido;
         try{
-            conexion = DriverManager.getConnection("jdbc:mysql://"+ "localhost:3306"+ "/"+ "mensajeria","root","1234");
+            conexion = DriverManager.getConnection("jdbc:mysql://"+ "localhost:3306"+ "/"+ "mensajeria","mensajeria","1234");
             String sql = "{call registrar_grupo(?, ?, ?, ?)}";
             CallableStatement cstmt = conexion.prepareCall(sql);     
             cstmt.setString(1, nombre);
@@ -212,7 +212,7 @@ public class Servicios extends SQLQuery{
         ArrayList<Integer> id_user_conv = new ArrayList<>();     
         ArrayList<String> user_data = new ArrayList<>(); 
         try{
-            this.conectar("localhost:3306", "mensajeria","root","1234");
+            this.conectar("localhost:3306", "mensajeria","mensajeria","1234");
             this.consulta=this.conexion.prepareStatement("call obtener_users_frecs(\""+user_id+"\");");
             this.datos=this.consulta.executeQuery();
             while(this.datos.next()){
@@ -248,7 +248,7 @@ public class Servicios extends SQLQuery{
         
     public void buscarPorUser( int user_id, String texto, DefaultListModel model){
         try{
-            this.conectar("localhost:3306", "mensajeria","root","1234");
+            this.conectar("localhost:3306", "mensajeria","mensajeria","1234");
             this.consulta=this.conexion.prepareStatement("call buscar_contacto_porUser(\""+user_id+"\",\""+texto+"\");");
             this.datos=this.consulta.executeQuery();
             while(this.datos.next()){
@@ -263,7 +263,7 @@ public class Servicios extends SQLQuery{
     
     public void buscarPorCiudad( int user_id, String texto, DefaultListModel model){
         try{
-            this.conectar("localhost:3306", "mensajeria","root","1234");
+            this.conectar("localhost:3306", "mensajeria","mensajeria","1234");
             this.consulta=this.conexion.prepareStatement("call buscar_contacto_porCiudad(\""+user_id+"\",\""+texto+"\");");
             this.datos=this.consulta.executeQuery();
             while(this.datos.next()){
