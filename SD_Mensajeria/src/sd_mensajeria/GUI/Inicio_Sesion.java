@@ -186,12 +186,7 @@ public class Inicio_Sesion extends javax.swing.JFrame {
     
     private void btn_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_loginActionPerformed
        
-         try {
-            // TODO add your handling code here:
-            Receiver r = new Receiver("Joyce"); // id+username del usuario que inicia sesión
-        } catch (Exception ex) {
-            Logger.getLogger(Inicio_Sesion.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
         final Servicios s = new Servicios(); 
         final usuario UsuarioInfo = new usuario();
         if(txt_user.getText().equals("") || txt_password.getPassword() == null){
@@ -210,6 +205,12 @@ public class Inicio_Sesion extends javax.swing.JFrame {
                     if(s.validar_userName(user,encript, UsuarioInfo)){
                     //if(s.validar_userName(user,pass, UsuarioInfo)){
                         this.setVisible(false);
+                        try {
+                            // TODO add your handling code here:
+                            Receiver r = new Receiver(user); // id+username del usuario que inicia sesión
+                        } catch (Exception ex) {
+                            Logger.getLogger(Inicio_Sesion.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                         final String datos = UsuarioInfo.getNombre() +" " +UsuarioInfo.getApellido();
                         JOptionPane.showMessageDialog(null, "Bienvenid@!! " + datos,"Mensaje", JOptionPane.INFORMATION_MESSAGE);
                         java.awt.EventQueue.invokeLater(new Runnable() {

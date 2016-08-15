@@ -26,7 +26,7 @@ public class Sender {
 		Properties env = new Properties();
 		env.put(Context.INITIAL_CONTEXT_FACTORY,
 				"org.apache.activemq.jndi.ActiveMQInitialContextFactory");
-		env.put(Context.PROVIDER_URL, "tcp://172.20.128.196:61616");
+		env.put(Context.PROVIDER_URL, "tcp://localhost:61616");
 		env.put("queue.queueSampleQueue", "Queue");
 		// get the initial context
 		InitialContext ctx = new InitialContext(env);
