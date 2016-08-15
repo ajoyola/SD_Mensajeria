@@ -20,6 +20,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.*;
+import java.util.ArrayList;
 
 import javax.crypto.*;
 import javax.crypto.interfaces.*;
@@ -33,6 +34,8 @@ import sd_activeMQ.Receiver;
  * @author Kattya Desiderio
  */
 public class Inicio_Sesion extends javax.swing.JFrame {
+    ArrayList <Chat> chatsActivos= new ArrayList <Chat> ();
+    
     /**
      * Creates new form Inicio_Sesion
      */
@@ -207,7 +210,7 @@ public class Inicio_Sesion extends javax.swing.JFrame {
                         this.setVisible(false);
                         try {
                             // TODO add your handling code here:
-                            Receiver r = new Receiver(user); // id+username del usuario que inicia sesión
+                            Receiver r = new Receiver(user, chatsActivos); // id+username del usuario que inicia sesión
                         } catch (Exception ex) {
                             Logger.getLogger(Inicio_Sesion.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -215,7 +218,7 @@ public class Inicio_Sesion extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, "Bienvenid@!! " + datos,"Mensaje", JOptionPane.INFORMATION_MESSAGE);
                         java.awt.EventQueue.invokeLater(new Runnable() {
                             public void run() {
-                                new Principal(s, datos, UsuarioInfo).setVisible(true);
+                                new Principal(s, datos, UsuarioInfo, chatsActivos).setVisible(true);
                             }
                         });
                     }else{//user incorrecto

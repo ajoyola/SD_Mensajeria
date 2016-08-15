@@ -12,6 +12,7 @@ import sd_mensajeria.usuario;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
@@ -22,10 +23,12 @@ import javax.swing.*;
 public class Principal extends javax.swing.JFrame {
     Servicios s;
     int u_id;
+    usuario user;
+    ArrayList <Chat> chatsActivos = new ArrayList <Chat> ();
     /**
      * Creates new form Principal
      */
-    public Principal(Servicios serv, String datos, usuario UserInfo) {
+    public Principal(Servicios serv, String datos, usuario UserInfo, ArrayList <Chat> chats) {
         super("JavaChat");
         initComponents();
         this.setLocationRelativeTo(null);
@@ -35,8 +38,9 @@ public class Principal extends javax.swing.JFrame {
         User_name_label1.setText(UserInfo.getNombre()+UserInfo.getApellido());
         User_name_label1.setText(userName.toUpperCase());
         User_foto.setIcon(o);
+        user= UserInfo; // seteo el usuario que ha iniciado sesión
         this.s=serv;
-        //cargar tab con lista de contactos del usuario
+        chatsActivos = chats;
         s.cargar_contactos(contactos_lista, userName, u_id);
         contactos_lista.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jScrollPane_contactos.setViewportView(contactos_lista);
@@ -53,6 +57,22 @@ public class Principal extends javax.swing.JFrame {
         }
         lista.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jspane.setViewportView(lista);
+    }
+    
+    public ArrayList<Chat> getChatsActivos() {
+        return chatsActivos;
+    }
+
+    public void setChatsActivos(ArrayList<Chat> chatsActivos) {
+        this.chatsActivos = chatsActivos;
+    }
+    
+    public void addChattoChatList(Chat c){
+        this.chatsActivos.add(c);
+        //muestra lista de chats entre dos personas que tiene el usuario
+        actualizar_lista(jScrollPane_chats1, lista_chat_personales, 1); 
+        //cargar tab con lista de todos los chats grupales que tiene el usuario
+        actualizar_lista(jScrollPane_chats, lista_chat_grupo, 2);        
     }
 
     /**
@@ -406,7 +426,9 @@ public class Principal extends javax.swing.JFrame {
         String info = (String)contactos_lista.getSelectedValue();
         if (evt.getClickCount() == 2){
             try {
-                new Chat(info, this.u_id ,this.s);
+                Chat ch = new Chat(info, this.u_id ,this.s, user, chatsActivos);
+                //Chat ch = new Chat("Joyce Sarmiento", this.u_id ,this.s, user, chatsActivos);
+                this.addChattoChatList(ch);
             } catch (IOException ex) {
                 Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -416,7 +438,7 @@ public class Principal extends javax.swing.JFrame {
     private void m_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_buscarActionPerformed
           java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Buscar_Contacto(s,contactos_lista,u_id).setVisible(true);
+                new Buscar_Contacto(s,contactos_lista,u_id, user, chatsActivos).setVisible(true);
             }
         });
     }//GEN-LAST:event_m_buscarActionPerformed
@@ -459,7 +481,8 @@ public class Principal extends javax.swing.JFrame {
         String info = (String)lista_chat_personales.getSelectedValue();
         if (evt.getClickCount() == 2){
             try {
-                new Chat(info, this.u_id ,this.s);
+                Chat c= new Chat(info, this.u_id ,this.s, user, chatsActivos);
+                this.addChattoChatList(c);
             } catch (IOException ex) {
                 Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
             }

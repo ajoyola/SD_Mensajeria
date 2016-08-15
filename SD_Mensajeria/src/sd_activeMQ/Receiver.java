@@ -4,6 +4,7 @@ package sd_activeMQ;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Properties;
 import javax.jms.JMSException;
 import javax.jms.MapMessage;
@@ -31,13 +32,17 @@ public class Receiver implements MessageListener{
     private QueueConnection queueConn = null;    
     private QueueSession queueSession = null;
     private Queue queue = null;
+    ArrayList <Chat> chatsActivos = new ArrayList <Chat> ();
     
-    public Receiver(String nombre) throws Exception  {
+    
+    public Receiver(String nombre,  ArrayList <Chat> chats) throws Exception  {
         
         this.nombre = nombre;
         this.selector = ("destinatario = '" + nombre + "' ");
+        chatsActivos = chats; //seteo lista de chats activos para poder mostrar mensajes
         
-        Properties env = new Properties();					   				env.put(Context.INITIAL_CONTEXT_FACTORY,
+        Properties env = new Properties();
+        env.put(Context.INITIAL_CONTEXT_FACTORY,
                         "org.apache.activemq.jndi.ActiveMQInitialContextFactory");
         env.put(Context.PROVIDER_URL, "tcp://localhost:61616");
         env.put("queue.queueSampleQueue","Queue");
@@ -68,19 +73,31 @@ public class Receiver implements MessageListener{
 
 		
 	}
+    
+    public Chat searchChat(String Contacto){
+        for(Chat c: chatsActivos){
+            if(c.getContacto().getUser().equals(Contacto)) //si encuentra chat abierto dirigido al emisor del mensaje
+            {
+                return c;
+            }           
+        }
+        return null; // se debe retornar nuevo chat con datos de construcutor de chat
+    }
+    
     @Override
     public void onMessage(Message message) {
     
     try {
          // Get the data from the message
          TextMessage msg = (TextMessage)message;
+         // Split el mensaje para sacar el emisor userName
+         String[] mensajeSplit = msg.getText().split(",,,");
          // print the message
-	System.out.println("Mensaje Recibido: " + msg.getText());
-        //Chat c = new Chat();
-        //c.addChatToList(msg.getText()); // metodo que añade el mensaje a la lista del chat 
-        // en esta parte se enviará el mensaje a la base de datos 
-        // ya que ya fue consumido por AMQ      
-        //c.setVisible(true);
+        System.out.println("Emisor: " + mensajeSplit[0] + "\n" + "Mensaje: " + mensajeSplit[1]);
+        //busco chat abierto
+        Chat c = searchChat( mensajeSplit[0]); // envío el emisor del chat
+        c.addChatToList(mensajeSplit[1]); // agrego mensaje a la lista
+        c.setVisible(true);
         
      } catch (JMSException jmse) {
          jmse.printStackTrace(); 

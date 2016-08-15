@@ -7,6 +7,7 @@ package sd_mensajeria.GUI;
 
 import java.awt.Image;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -23,6 +24,8 @@ import sd_mensajeria.usuario;
  */
 public class Chat extends javax.swing.JFrame {
     usuario contacto = new usuario();
+    usuario emisor = new usuario();
+    ArrayList <Chat> chatsActivos = new ArrayList <Chat> ();
     /**
      * Creates new form Chat
      */
@@ -39,11 +42,13 @@ public class Chat extends javax.swing.JFrame {
         User_foto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/librerias/grupo-chat.jpg"))); 
         User_foto.setSize(126, 129);
     }
-    public Chat(String info,int userID, Servicios serv) throws IOException {
+    public Chat(String info, int userID, Servicios serv, usuario user, ArrayList <Chat> chats) throws IOException {
 // info del usuario sera colocada como nombre y su respectivo estado de conexion, el historial y foto
         initComponents();
         this.setLocationRelativeTo(null);
         super.setTitle("JavaChat");
+        emisor = user; // seteo datos del usuario logeado
+        chatsActivos = chats; // seteo lista de chats activas pasada desde GUI principal
         String contInfo[] = info.split(" ", 3);//obtiene por separado el nombre y el apellido
         if(serv.dato_contacto(contInfo[0],contInfo[1],contacto)){
             ImageIcon o = contacto.getFoto();
@@ -60,6 +65,34 @@ public class Chat extends javax.swing.JFrame {
         }else{
             JOptionPane.showMessageDialog(null, "Contacto no existe");
         }      
+    }
+    
+    public ArrayList<Chat> getChatsActivos() {
+        return chatsActivos;
+    }
+
+    public void setChatsActivos(ArrayList<Chat> chatsActivos) {
+        this.chatsActivos = chatsActivos;
+    }
+    
+    public void addChattoChatList(Chat c){
+        this.chatsActivos.add(c);
+    }
+
+    public usuario getContacto() {
+        return contacto;
+    }
+
+    public usuario getEmisor() {
+        return emisor;
+    }
+
+    public void setContacto(usuario contacto) {
+        this.contacto = contacto;
+    }
+
+    public void setEmisor(usuario emisor) {
+        this.emisor = emisor;
     }
 
     /**
@@ -234,7 +267,7 @@ public class Chat extends javax.swing.JFrame {
         // TODO add your handling code here:  
         Sender s = new Sender("Angely"); // id+uername del que envía el mensaje
                try {
-                   s.sendMessage(Txt_texto.getText(), "Angely"); //  id+username del desitnario
+                   s.sendMessage(Txt_texto.getText(), contacto.getUser(), emisor.getUser()); 
                } catch (Exception ex) {
                    Logger.getLogger(Chat.class.getName()).log(Level.SEVERE, null, ex);
                }

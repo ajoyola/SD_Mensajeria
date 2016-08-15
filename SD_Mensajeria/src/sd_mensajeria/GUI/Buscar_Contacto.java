@@ -6,12 +6,14 @@
 package sd_mensajeria.GUI;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JTextField;
 import sd_conexion_bd.Servicios;
+import sd_mensajeria.usuario;
 
 /**
  *
@@ -21,16 +23,30 @@ public class Buscar_Contacto extends javax.swing.JFrame {
     JList contactosDelUsuario;
     Servicios serv;
     int user_id;
+    usuario emisor; //usuario logeado en la app
+    ArrayList <Chat> chatsActivos = new ArrayList <Chat> ();
     /**
      * Creates new form Buscar_Contacto
      */
-    public Buscar_Contacto(Servicios s, JList contactos_lista, int userID) {
+
+    
+     public Buscar_Contacto(Servicios s, JList contactos_lista, int userID, usuario userEmisor, ArrayList <Chat> chats) {
         super("Java Chat");
         initComponents();
         this.setLocationRelativeTo(null);
         this.contactosDelUsuario = contactos_lista;
+        chatsActivos = chats; // seteo lista de chats activas pasada desde GUI principal
+        emisor = userEmisor; // seteo usuario logueado
         this.serv=s;
         this.user_id=userID;
+    }
+
+     public usuario getEmisor() {
+        return emisor;
+    }
+
+    public void setEmisor(usuario emisor) {
+        this.emisor = emisor;
     }
 
     /**
@@ -140,7 +156,7 @@ public class Buscar_Contacto extends javax.swing.JFrame {
         String contacto = (String)resultado_busqueda.getSelectedValue();
         if (evt.getClickCount() == 2){
             try {
-                new Chat(contacto, this.user_id ,this.serv);
+                new Chat(contacto, this.user_id ,this.serv, emisor, chatsActivos);
             } catch (IOException ex) {
                 Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
             }

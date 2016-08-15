@@ -7,7 +7,9 @@ package sd_mensajeria.GUI;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Blob;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
@@ -22,6 +24,7 @@ import sd_mensajeria.usuario;
  */
 public class Registro extends javax.swing.JFrame {
 
+    ArrayList <Chat> chatsActivos;
     /**
      * Creates new form Registro
      */
@@ -286,12 +289,16 @@ public class Registro extends javax.swing.JFrame {
                         s.registrar_usuario(nombre,apellido,ciudad,user,pass,"");
                     } catch (FileNotFoundException ex) {
                         Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (IOException ex) {
+                        Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
                 else{
                     try {
                         s.registrar_usuario(nombre,apellido,ciudad,user,pass,foto);
                     } catch (FileNotFoundException ex) {
+                        Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (IOException ex) {
                         Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
@@ -305,8 +312,7 @@ public class Registro extends javax.swing.JFrame {
              // this.setVisible(false);
               java.awt.EventQueue.invokeLater(new Runnable() {
                         public void run() {
-                             
-                             new Principal(s, null, UsuarioInfo).setVisible(true);                       
+                           new Principal(s, null, UsuarioInfo, chatsActivos).setVisible(true);                          
                         }
                     }); 
           }

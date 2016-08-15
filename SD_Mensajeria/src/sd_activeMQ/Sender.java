@@ -13,6 +13,7 @@ import javax.jms.DeliveryMode;
 import javax.jms.QueueSession;
 import javax.jms.QueueConnection;
 import javax.jms.QueueConnectionFactory;
+import sd_mensajeria.usuario;
 
 public class Sender {
 
@@ -22,7 +23,7 @@ public class Sender {
         this.origen = origen;
     }
 
-	public void sendMessage(String msg, String destinatario) throws Exception {
+	public void sendMessage(String msg, String destinatario, String emisor) throws Exception {
 		Properties env = new Properties();
 		env.put(Context.INITIAL_CONTEXT_FACTORY,
 				"org.apache.activemq.jndi.ActiveMQInitialContextFactory");
@@ -42,7 +43,7 @@ public class Sender {
 		QueueSender queueSender = queueSession.createSender(queue);
 		queueSender.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
 		// create a simple message to say "Hello"
-		TextMessage message = queueSession.createTextMessage(msg);
+		TextMessage message = queueSession.createTextMessage(emisor + ",,," + msg);
                 //Se añade un selector de mensaje para especificar destinatario que consumirá el mensaje
                 message.setStringProperty("destinatario",destinatario);
 		// send the message
