@@ -176,7 +176,6 @@ public class Servicios extends SQLQuery{
             conexion = DriverManager.getConnection("jdbc:mysql://"+ "localhost:3306"+ "/"+ "mensajeria","root","1234");
             String sql = "{call registrar_grupo(?, ?, ?, ?)}";
             CallableStatement cstmt = conexion.prepareCall(sql);     
-            //CallableStatement cstmt= conexion.prepareCall("{call registrar_grupo(\""+nombre+"\",\""+descripcion+"\",\""+creadorID+"\",\""+id_grupo+"\")}");
             cstmt.setString(1, nombre);
             cstmt.setString(2, descripcion);
             cstmt.setInt(3, creadorID);
@@ -270,6 +269,65 @@ public class Servicios extends SQLQuery{
             while(this.datos.next()){
                 model.addElement(datos.getString("nombreCompleto") +"    >>> "+" Ciudad: "+datos.getString("ciudad"));
             }
+        }
+        catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(Servicios.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "No se pudo conectar correctamente a la base de datos");
+        }        
+    }
+    
+    public void cargar_chats_grupo(JList chat_lista, int user_id){
+        try{
+            this.conectar("localhost:3306", "mensajeria","root","1234");
+            this.consulta=this.conexion.prepareStatement("call consultar_chatsEnGrupo(\""+user_id+"\");");
+            this.datos=this.consulta.executeQuery();
+            DefaultListModel modelo = new DefaultListModel();
+            while(this.datos.next()){
+                modelo.addElement(datos.getString("nombre"));
+            }
+            chat_lista.setModel(modelo);
+        }
+        catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(Servicios.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "No se pudo conectar correctamente a la base de datos");
+        } 
+    }
+    
+    public void cargar_chats_personales(JList lista, int user_id){
+        try{
+            this.conectar("localhost:3306", "mensajeria","root","1234");
+            this.consulta=this.conexion.prepareStatement("call consultar_chatsPersonales(\""+user_id+"\");");
+            this.datos=this.consulta.executeQuery();
+            DefaultListModel modelo = new DefaultListModel();
+            while(this.datos.next()){
+                modelo.addElement(datos.getString("nombreCompleto"));
+            }
+            lista.setModel(modelo);
+        }
+        catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(Servicios.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "No se pudo conectar correctamente a la base de datos");
+        } 
+    }
+    
+    public void obtener_historial_ChatsGrupo(JList lista, int user_id, String nombre_grupo){
+        String str;
+        try{
+            this.conectar("localhost:3306", "mensajeria","root","1234");
+            this.consulta=this.conexion.prepareStatement("call historial_chatsEnGrupo(\""+user_id+"\",\""+nombre_grupo+"\");");
+            this.datos=this.consulta.executeQuery();
+            DefaultListModel modelo = new DefaultListModel();
+            while(this.datos.next()){
+                if(datos.getInt("emisor_id")==user_id){
+                    str ="Tu: "+datos.getString("texto");
+                    modelo.addElement(str);  
+                }else{
+                    //posicion.setHorizontalAlignment(SwingConstants.CENTER);
+                    str =datos.getString("nombreCompleto")+": "+datos.getString("texto");
+                    modelo.addElement(str);
+                }
+            }
+            lista.setModel(modelo);
         }
         catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(Servicios.class.getName()).log(Level.SEVERE, null, ex);

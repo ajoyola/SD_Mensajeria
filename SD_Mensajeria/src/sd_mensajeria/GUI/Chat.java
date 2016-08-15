@@ -26,6 +26,19 @@ public class Chat extends javax.swing.JFrame {
     /**
      * Creates new form Chat
      */
+    
+    public Chat(int userID, Servicios serv, String nombreGrupo){
+        initComponents();
+        this.setLocationRelativeTo(null);
+        super.setTitle("JavaChat");
+        nombre_contacto_lbl.setText(nombreGrupo);
+        fecha_conexion_lbl.setVisible(false);
+        estado_lbl.setVisible(false);
+        serv.obtener_historial_ChatsGrupo(lista_mensajes, userID, nombreGrupo);
+        setVisible(true);
+        User_foto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/librerias/grupo-chat.jpg"))); 
+        User_foto.setSize(126, 129);
+    }
     public Chat(String info,int userID, Servicios serv) throws IOException {
 // info del usuario sera colocada como nombre y su respectivo estado de conexion, el historial y foto
         initComponents();
@@ -47,9 +60,6 @@ public class Chat extends javax.swing.JFrame {
         }else{
             JOptionPane.showMessageDialog(null, "Contacto no existe");
         }      
-        //verificar si existe chat anterior si es asi abrirlo
-        //sino mostrar una nuevadel contacto ventana para el chat entre ellos
-
     }
 
     /**

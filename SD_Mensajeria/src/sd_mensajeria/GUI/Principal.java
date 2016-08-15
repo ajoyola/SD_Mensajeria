@@ -36,9 +36,18 @@ public class Principal extends javax.swing.JFrame {
         User_name_label1.setText(userName.toUpperCase());
         User_foto.setIcon(o);
         this.s=serv;
+        //cargar tab con lista de contactos del usuario
         s.cargar_contactos(contactos_lista, userName, u_id);
         contactos_lista.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jScrollPane_contactos.setViewportView(contactos_lista);
+        //muestra lista de chats entre dos personas que tiene el usuario
+        s.cargar_chats_personales(lista_chat_personales, u_id);
+        lista_chat_personales.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jScrollPane_chats1.setViewportView(lista_chat_personales);
+        //cargar tab con lista de todos los chats grupales que tiene el usuario
+        s.cargar_chats_grupo(lista_chat_grupo, u_id);
+        lista_chat_grupo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jScrollPane_chats.setViewportView(lista_chat_grupo);
         
     }
 
@@ -63,7 +72,12 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane_contactos = new javax.swing.JScrollPane();
         contactos_lista = new javax.swing.JList();
         Panel_chats = new javax.swing.JPanel();
-        chat_lista = new javax.swing.JList();
+        Personales = new javax.swing.JPanel();
+        jScrollPane_chats1 = new javax.swing.JScrollPane();
+        lista_chat_personales = new javax.swing.JList();
+        Grupos = new javax.swing.JPanel();
+        jScrollPane_chats = new javax.swing.JScrollPane();
+        lista_chat_grupo = new javax.swing.JList();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu5 = new javax.swing.JMenu();
         jMenu1 = new javax.swing.JMenu();
@@ -119,7 +133,7 @@ public class Principal extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(36, 36, 36)
                         .addComponent(User_name_label1, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(349, Short.MAX_VALUE))))
+                        .addContainerGap(381, Short.MAX_VALUE))))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(196, 196, 196)
@@ -175,32 +189,86 @@ public class Principal extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("         CONTACTOS         ", Panel_contactos);
 
-        chat_lista.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        chat_lista.addMouseListener(new java.awt.event.MouseAdapter() {
+        Personales.setBorder(javax.swing.BorderFactory.createTitledBorder("Personales"));
+
+        lista_chat_personales.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        lista_chat_personales.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                chat_listaMouseClicked(evt);
+                lista_chat_personalesMouseClicked(evt);
             }
         });
+        jScrollPane_chats1.setViewportView(lista_chat_personales);
+
+        javax.swing.GroupLayout PersonalesLayout = new javax.swing.GroupLayout(Personales);
+        Personales.setLayout(PersonalesLayout);
+        PersonalesLayout.setHorizontalGroup(
+            PersonalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 908, Short.MAX_VALUE)
+            .addGroup(PersonalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(PersonalesLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane_chats1, javax.swing.GroupLayout.PREFERRED_SIZE, 888, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+        PersonalesLayout.setVerticalGroup(
+            PersonalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(PersonalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(PersonalesLayout.createSequentialGroup()
+                    .addGap(7, 7, 7)
+                    .addComponent(jScrollPane_chats1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+
+        Grupos.setBorder(javax.swing.BorderFactory.createTitledBorder("Grupos"));
+
+        lista_chat_grupo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        lista_chat_grupo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lista_chat_grupoMouseClicked(evt);
+            }
+        });
+        jScrollPane_chats.setViewportView(lista_chat_grupo);
+
+        javax.swing.GroupLayout GruposLayout = new javax.swing.GroupLayout(Grupos);
+        Grupos.setLayout(GruposLayout);
+        GruposLayout.setHorizontalGroup(
+            GruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 908, Short.MAX_VALUE)
+            .addGroup(GruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(GruposLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane_chats, javax.swing.GroupLayout.PREFERRED_SIZE, 888, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+        GruposLayout.setVerticalGroup(
+            GruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(GruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(GruposLayout.createSequentialGroup()
+                    .addGap(7, 7, 7)
+                    .addComponent(jScrollPane_chats, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
 
         javax.swing.GroupLayout Panel_chatsLayout = new javax.swing.GroupLayout(Panel_chats);
         Panel_chats.setLayout(Panel_chatsLayout);
         Panel_chatsLayout.setHorizontalGroup(
             Panel_chatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 908, Short.MAX_VALUE)
-            .addGroup(Panel_chatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(Panel_chatsLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(chat_lista, javax.swing.GroupLayout.PREFERRED_SIZE, 886, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(Panel_chatsLayout.createSequentialGroup()
+                .addGap(0, 20, Short.MAX_VALUE)
+                .addGroup(Panel_chatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Grupos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Personales, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         Panel_chatsLayout.setVerticalGroup(
             Panel_chatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 370, Short.MAX_VALUE)
-            .addGroup(Panel_chatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(Panel_chatsLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(chat_lista, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Panel_chatsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(Personales, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Grupos, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(63, 63, 63))
         );
 
         jTabbedPane1.addTab("                CHATS             ", Panel_chats);
@@ -267,7 +335,7 @@ public class Principal extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 913, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 945, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -284,16 +352,17 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_User_fotoFocusGained
 
-    private void chat_listaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_chat_listaMouseClicked
+    private void lista_chat_grupoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lista_chat_grupoMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_chat_listaMouseClicked
+        String nombreGrupo = (String)lista_chat_grupo.getSelectedValue();
+        if (evt.getClickCount() == 2){
+            new Chat(this.u_id ,this.s, nombreGrupo);
+        }
+    }//GEN-LAST:event_lista_chat_grupoMouseClicked
 
     private void contactos_listaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contactos_listaMouseClicked
         // TODO add your handling code here:
         String info = (String)contactos_lista.getSelectedValue();
-        //verificar si existe chat anterior si es asi abrirlo
-        //sino mostrar una nueva ventana para el chat entre ellos
-        //obtener estado del contacto
         if (evt.getClickCount() == 2){
             try {
                 new Chat(info, this.u_id ,this.s);
@@ -344,13 +413,26 @@ public class Principal extends javax.swing.JFrame {
 // TODO add your handling code here:
     }//GEN-LAST:event_m_fiveActionPerformed
 
+    private void lista_chat_personalesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lista_chat_personalesMouseClicked
+        // TODO add your handling code here:
+        String info = (String)lista_chat_personales.getSelectedValue();
+        if (evt.getClickCount() == 2){
+            try {
+                new Chat(info, this.u_id ,this.s);
+            } catch (IOException ex) {
+                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_lista_chat_personalesMouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel Grupos;
     private javax.swing.JPanel Panel_chats;
     private javax.swing.JPanel Panel_contactos;
+    private javax.swing.JPanel Personales;
     private javax.swing.JLabel User_foto;
     private javax.swing.JLabel User_name_label1;
     private javax.swing.JLabel User_name_label2;
-    private javax.swing.JList chat_lista;
     private javax.swing.JList contactos_lista;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
@@ -363,9 +445,13 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane_chats;
+    private javax.swing.JScrollPane jScrollPane_chats1;
     private javax.swing.JScrollPane jScrollPane_contactos;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JList lista_chat_grupo;
+    private javax.swing.JList lista_chat_personales;
     private javax.swing.JMenuItem m_agregar;
     private javax.swing.JMenuItem m_buscar;
     private javax.swing.JMenuItem m_five;
