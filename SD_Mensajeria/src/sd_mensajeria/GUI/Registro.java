@@ -147,6 +147,7 @@ public class Registro extends javax.swing.JFrame {
         jLabel7.setText("Foto:");
 
         txtFoto.setEditable(false);
+        txtFoto.setText("Ruta Foto");
 
         jButton2.setText("Abrir");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -262,14 +263,16 @@ public class Registro extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
           final Servicios s = new Servicios(); 
-          String nombre,apellido,ciudad,user,pass,foto;
+          String nombre,apellido,ciudad,user,pass;
+          String foto;
           
           nombre = txtNombre.getText();
           apellido = txtApellido.getText();
           user = txtUsuario.getText();
           pass = txtpass.getText();
           ciudad = (String)jComboBox1.getSelectedItem();
-          foto= txtFoto.getText();
+          foto = txtFoto.getText();
+          System.out.println("Valor de Fto :" + foto);
           
           //System.out.println(nombre+" "+apellido+" "+user+" "+pass+" "+ciudad);
           
@@ -278,20 +281,31 @@ public class Registro extends javax.swing.JFrame {
           }
           else
           {    
-              try {
-                  s.registrar_usuario(nombre,apellido,ciudad,user,pass,null);
-              } catch (FileNotFoundException ex) {
-                  Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
-              }
+                if("Ruta Foto".equals(foto)){
+                    try {
+                        s.registrar_usuario(nombre,apellido,ciudad,user,pass,"");
+                    } catch (FileNotFoundException ex) {
+                        Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                else{
+                    try {
+                        s.registrar_usuario(nombre,apellido,ciudad,user,pass,foto);
+                    } catch (FileNotFoundException ex) {
+                        Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
               txtNombre.setText("");
               txtApellido.setText("");
               txtUsuario.setText("");
               txtpass.setText("");
               txtFoto.setText("");
               final usuario UsuarioInfo = new usuario(nombre,apellido,user,ciudad);
-              
+              this.dispose();
+             // this.setVisible(false);
               java.awt.EventQueue.invokeLater(new Runnable() {
                         public void run() {
+                             
                              new Principal(s, null, UsuarioInfo).setVisible(true);                       
                         }
                     }); 

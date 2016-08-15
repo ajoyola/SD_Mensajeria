@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.sql.Blob;
 import java.sql.CallableStatement;
 import java.sql.DriverManager;
@@ -34,6 +35,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import org.apache.commons.codec.digest.DigestUtils;
 import sd_mensajeria.usuario;
 
 public class Servicios extends SQLQuery{ 
@@ -93,14 +95,21 @@ public class Servicios extends SQLQuery{
         }        
     }
     
-     public void registrar_usuario(String nombre, String apellido, String ciudad, String user, String pass,  String foto) throws FileNotFoundException{
+     public void registrar_usuario(String nombre, String apellido, String ciudad, String user, String pass,  String foto) throws FileNotFoundException, IOException{
          
-         FileInputStream  fis = null;
+    
          try{
-            File file = new File(foto);
-            fis = new  FileInputStream(file);
+            if(!foto.equals("")){
+                //FileInputStream  fis = null;
+                //File file = new File(foto);
+                //fis = new  FileInputStream(file);
+                ObjectInputStream file = new ObjectInputStream(new FileInputStream(foto));
+                System.out.println(file);
+            }
             this.conectar("localhost:3306", "mensajeria","root","1234");
-            this.consulta=this.conexion.prepareStatement("call registrar_usuario(\""+nombre+"\",\""+apellido+"\",\""+ciudad+"\",\""+user+"\",\""+pass+"\",\""+""+"\");");
+            String semilla="2016";
+            String encript=DigestUtils.sha1Hex(pass+semilla);
+            this.consulta=this.conexion.prepareStatement("call registrar_usuario(\""+nombre+"\",\""+apellido+"\",\""+ciudad+"\",\""+user+"\",\""+encript+"\",\""+""+"\");");
             this.datos=this.consulta.executeQuery();
         }
         catch (ClassNotFoundException | SQLException ex) {
