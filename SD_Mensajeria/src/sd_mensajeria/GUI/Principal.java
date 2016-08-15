@@ -41,14 +41,18 @@ public class Principal extends javax.swing.JFrame {
         contactos_lista.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jScrollPane_contactos.setViewportView(contactos_lista);
         //muestra lista de chats entre dos personas que tiene el usuario
-        s.cargar_chats_personales(lista_chat_personales, u_id);
-        lista_chat_personales.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jScrollPane_chats1.setViewportView(lista_chat_personales);
+        actualizar_lista(jScrollPane_chats1, lista_chat_personales, 1); 
         //cargar tab con lista de todos los chats grupales que tiene el usuario
-        s.cargar_chats_grupo(lista_chat_grupo, u_id);
-        lista_chat_grupo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jScrollPane_chats.setViewportView(lista_chat_grupo);
-        
+        actualizar_lista(jScrollPane_chats, lista_chat_grupo, 2);        
+    }
+    public void actualizar_lista(JScrollPane jspane, JList lista, int tipo){
+        if(tipo==2){
+            s.cargar_chats_grupo(lista, u_id);
+        } else{ 
+            s.cargar_chats_personales(lista, u_id);
+        }
+        lista.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jspane.setViewportView(lista);
     }
 
     /**
@@ -96,6 +100,18 @@ public class Principal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
+        addWindowFocusListener(new java.awt.event.WindowFocusListener() {
+            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
+                formWindowGainedFocus(evt);
+            }
+            public void windowLostFocus(java.awt.event.WindowEvent evt) {
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -188,6 +204,12 @@ public class Principal extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("         CONTACTOS         ", Panel_contactos);
+
+        Panel_chats.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Panel_chatsMouseClicked(evt);
+            }
+        });
 
         Personales.setBorder(javax.swing.BorderFactory.createTitledBorder("Personales"));
 
@@ -397,11 +419,11 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu5ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-       java.awt.EventQueue.invokeLater(new Runnable() {
-                        public void run() {
-                            new Crear_Grupo(s, contactos_lista, u_id).setVisible(true);                         
-                        }
-                    }); 
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Crear_Grupo(s, contactos_lista, u_id).setVisible(true);                         
+            }
+        });     
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void m_fiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_fiveActionPerformed
@@ -424,6 +446,20 @@ public class Principal extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_lista_chat_personalesMouseClicked
+
+    private void Panel_chatsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Panel_chatsMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Panel_chatsMouseClicked
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formMouseClicked
+
+    private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
+        // TODO add your handling code here:
+        actualizar_lista(jScrollPane_chats1, lista_chat_personales, 1); 
+        actualizar_lista(jScrollPane_chats, lista_chat_grupo, 2);
+    }//GEN-LAST:event_formWindowGainedFocus
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Grupos;

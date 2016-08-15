@@ -5,6 +5,8 @@
  */
 package sd_mensajeria.GUI;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -235,12 +237,16 @@ public class Crear_Grupo extends javax.swing.JFrame {
         if(integrantes_lista.getModel().getSize()==0 || nombre.equals("") || desc.equals("")){
             JOptionPane.showMessageDialog(null, "Todos los campos son obligatorios","Error de Ingreso de Datos", JOptionPane.ERROR_MESSAGE);
         }else{
-            //enviar datos a la base
-            if(s.registrar_grupo(nombre,desc,integrantes_lista, creadorID)){
-                JOptionPane.showMessageDialog(null, "Se ha creado el grupo: " +nombre,"Java Chat - Información", JOptionPane.INFORMATION_MESSAGE);
-                this.dispose();
-            }else{
-                JOptionPane.showMessageDialog(null, "No pudo ser creado el grupo" + nombre,"JAVA CHAT - INFORMATION", JOptionPane.ERROR_MESSAGE);
+            try {
+                //enviar datos a la base
+                if(s.registrar_grupo(nombre,desc,integrantes_lista, creadorID)){
+                    JOptionPane.showMessageDialog(null, "Se ha creado el grupo: " +nombre,"Java Chat - Información", JOptionPane.INFORMATION_MESSAGE);
+                    this.dispose();
+                }else{
+                    JOptionPane.showMessageDialog(null, "No pudo ser creado el grupo" + nombre,"JAVA CHAT - INFORMATION", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Crear_Grupo.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_guardar_btnActionPerformed
