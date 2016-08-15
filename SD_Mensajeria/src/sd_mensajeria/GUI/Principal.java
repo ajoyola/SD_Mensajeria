@@ -84,6 +84,8 @@ public class Principal extends javax.swing.JFrame {
         lista_chat_grupo = new javax.swing.JList();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu5 = new javax.swing.JMenu();
+        m_perfil = new javax.swing.JMenuItem();
+        m_logout = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         m_buscar = new javax.swing.JMenuItem();
         m_agregar = new javax.swing.JMenuItem();
@@ -301,6 +303,23 @@ public class Principal extends javax.swing.JFrame {
                 jMenu5ActionPerformed(evt);
             }
         });
+
+        m_perfil.setText("Ver Perfil");
+        m_perfil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                m_perfilActionPerformed(evt);
+            }
+        });
+        jMenu5.add(m_perfil);
+
+        m_logout.setText("Log  Out");
+        m_logout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                m_logoutActionPerformed(evt);
+            }
+        });
+        jMenu5.add(m_logout);
+
         jMenuBar1.add(jMenu5);
 
         jMenu1.setText("Contacto");
@@ -461,6 +480,20 @@ public class Principal extends javax.swing.JFrame {
         actualizar_lista(jScrollPane_chats, lista_chat_grupo, 2);
     }//GEN-LAST:event_formWindowGainedFocus
 
+    private void m_perfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_perfilActionPerformed
+       java.awt.EventQueue.invokeLater(new Runnable() {
+                        public void run() {
+                            new Perfil().setVisible(true);                         
+                        }
+                    }); 
+    }//GEN-LAST:event_m_perfilActionPerformed
+
+    private void m_logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_logoutActionPerformed
+             JOptionPane.showMessageDialog(null, "Usted ha cerrado sesion.","Log Out", JOptionPane.INFORMATION_MESSAGE);
+             System.exit(0);
+                        
+    }//GEN-LAST:event_m_logoutActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Grupos;
     private javax.swing.JPanel Panel_chats;
@@ -491,6 +524,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem m_agregar;
     private javax.swing.JMenuItem m_buscar;
     private javax.swing.JMenuItem m_five;
+    private javax.swing.JMenuItem m_logout;
+    private javax.swing.JMenuItem m_perfil;
     // End of variables declaration//GEN-END:variables
 
     private Image createImageIcon(String resourcesjava_iconpng, String java) {

@@ -44,6 +44,7 @@ public class Servicios extends SQLQuery{
     public boolean validar_userName(String userName, String password, usuario u) throws IOException{
         try{
             this.conectar("localhost:3306", "mensajeria","root","1234");
+            ////this.conectar("192.168.43.21:3306", "mensajeria","mensajeria","1234");
             //System.out.println("\n" + userName+ " " + password + "\n");
             this.consulta=this.conexion.prepareStatement("call buscar_por_user(\""+userName+"\",\""+password+"\");");
             this.datos=this.consulta.executeQuery();
@@ -74,13 +75,14 @@ public class Servicios extends SQLQuery{
         return false;               
     }
           
-     /**
+    /**
       * Cargar la lista de los contactos del usuario de la base de datos y mostararla como lista en el tab contactos
       * lista es la lista donde se va a presentar los contactos del usuario
     */
     public void cargar_contactos(JList lista, String userName, int u_id){
         try{
             this.conectar("localhost:3306", "mensajeria","root","1234");
+            ////this.conectar("192.168.43.21:3306", "mensajeria","mensajeria","1234");
             this.consulta=this.conexion.prepareStatement("call consultar_contactos(\""+userName+"\",\""+u_id+"\");");
             this.datos=this.consulta.executeQuery();
             DefaultListModel modelo = new DefaultListModel();
@@ -107,6 +109,7 @@ public class Servicios extends SQLQuery{
                 System.out.println(file);
             }
             this.conectar("localhost:3306", "mensajeria","root","1234");
+            //this.conectar("192.168.43.21:3306", "mensajeria","mensajeria","1234");
             String semilla="2016";
             String encript=DigestUtils.sha1Hex(pass+semilla);
             this.consulta=this.conexion.prepareStatement("call registrar_usuario(\""+nombre+"\",\""+apellido+"\",\""+ciudad+"\",\""+user+"\",\""+encript+"\",\""+""+"\");");
@@ -118,12 +121,13 @@ public class Servicios extends SQLQuery{
         }        
     }
     //------------
-     /**
+    /**
       * funcion para obtener los datos del contacto del usuario del chat
     */
     public boolean dato_contacto(String nombre, String apellido, usuario u) throws IOException{
         try{
             this.conectar("localhost:3306", "mensajeria","root","1234");
+            //this.conectar("192.168.43.21:3306", "mensajeria","mensajeria","1234");
             this.consulta=this.conexion.prepareStatement("call obtener_info_contacto(\""+nombre+"\",\""+apellido+"\");");
             this.datos=this.consulta.executeQuery();
             while(this.datos.next()){
@@ -156,6 +160,7 @@ public class Servicios extends SQLQuery{
         //UIResource posicion = new UIResource();
         try{
             this.conectar("localhost:3306", "mensajeria","root","1234");
+            //this.conectar("192.168.43.21:3306", "mensajeria","mensajeria","1234");
             this.consulta=this.conexion.prepareStatement("call obtener_historial_msj(\""+user_id+"\",\""+contacto_id+"\");");
             this.datos=this.consulta.executeQuery();
             DefaultListModel modelo = new DefaultListModel();
@@ -177,12 +182,17 @@ public class Servicios extends SQLQuery{
             JOptionPane.showMessageDialog(null, "No se pudo conectar correctamente a la base de datos");
         }        
     }
+    
+     /**
+     * procedimiento que permite al usuario crear un nuevo grupo   
+     */
     public boolean registrar_grupo(String nombre,String descripcion, JList integrantes_lista, int creadorID) throws ClassNotFoundException{
         //registrar grupo
         int id_grupo=0;
         String nomb_apellido;
         try{
             this.conectar("localhost:3306", "mensajeria","root","1234");
+            //this.conectar("192.168.43.21:3306", "mensajeria","mensajeria","1234");
             String sql = "{call registrar_grupo(?, ?, ?, ?)}";
             CallableStatement cstmt = conexion.prepareCall(sql);     
             cstmt.setString(1, nombre);
@@ -212,52 +222,54 @@ public class Servicios extends SQLQuery{
     }
     
     //------------
-     /**
+    /**
       * funcion para obtener usuarios mas frecuentes del chat
     */
-        public void usuarios_frecuentes(int user_id, JList topFiveList){
-        int id_temp=0;
-        String msj;
-        ArrayList<Integer> id_user_conv = new ArrayList<>();     
-        ArrayList<String> user_data = new ArrayList<>(); 
-        try{
-            this.conectar("localhost:3306", "mensajeria","root","1234");
-            this.consulta=this.conexion.prepareStatement("call obtener_users_frecs(\""+user_id+"\");");
+    public void usuarios_frecuentes(int user_id, JList topFiveList){
+    int id_temp=0;
+    String msj;
+    ArrayList<Integer> id_user_conv = new ArrayList<>();     
+    ArrayList<String> user_data = new ArrayList<>(); 
+    try{
+        this.conectar("localhost:3306", "mensajeria","root","1234");
+        //this.conectar("192.168.43.21:3306", "mensajeria","mensajeria","1234");
+        this.consulta=this.conexion.prepareStatement("call obtener_users_frecs(\""+user_id+"\");");
+        this.datos=this.consulta.executeQuery();
+        while(this.datos.next()){
+            id_temp = datos.getInt("destinatario_id");
+            id_user_conv.add(id_temp);
+            //System.out.println(id_temp + "  contador: " +id_temp_count);
+
+        } 
+
+        DefaultListModel modelo = new DefaultListModel();
+
+        for (int a=0; a<id_user_conv.size(); a++) {
+            int id_userFav = id_user_conv.get(a);
+            this.consulta=this.conexion.prepareStatement("call obtener_usuario_porID(\""+id_userFav+"\");");
             this.datos=this.consulta.executeQuery();
-            while(this.datos.next()){
-                id_temp = datos.getInt("destinatario_id");
-                id_user_conv.add(id_temp);
-                //System.out.println(id_temp + "  contador: " +id_temp_count);
-              
-            } 
-            
-            DefaultListModel modelo = new DefaultListModel();
-            
-            for (int a=0; a<id_user_conv.size(); a++) {
-                int id_userFav = id_user_conv.get(a);
-                this.consulta=this.conexion.prepareStatement("call obtener_usuario_porID(\""+id_userFav+"\");");
-                this.datos=this.consulta.executeQuery();
-                while(this.datos.next()) {
-                    String nombre = datos.getString("nombre");
-                    String apellido = datos.getString("apellido");
-                    String usuario = datos.getString("user");
-                    user_data.add(nombre + " " + apellido + " @" + usuario);
-                }
+            while(this.datos.next()) {
+                String nombre = datos.getString("nombre");
+                String apellido = datos.getString("apellido");
+                String usuario = datos.getString("user");
+                user_data.add(nombre + " " + apellido + " @" + usuario);
             }
-            for (int b=0; b<user_data.size();b++) {
-                modelo.addElement(user_data.get(b));
-            }
-            topFiveList.setModel(modelo);          
         }
-        catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(Servicios.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, "No se pudo conectar correctamente a la base de datos");
-        }        
+        for (int b=0; b<user_data.size();b++) {
+            modelo.addElement(user_data.get(b));
+        }
+        topFiveList.setModel(modelo);          
     }
+    catch (ClassNotFoundException | SQLException ex) {
+        Logger.getLogger(Servicios.class.getName()).log(Level.SEVERE, null, ex);
+        JOptionPane.showMessageDialog(null, "No se pudo conectar correctamente a la base de datos");
+    }        
+}
         
     public void buscarPorUser( int user_id, String texto, DefaultListModel model){
         try{
             this.conectar("localhost:3306", "mensajeria","root","1234");
+            //this.conectar("192.168.43.21:3306", "mensajeria","mensajeria","1234");
             this.consulta=this.conexion.prepareStatement("call buscar_contacto_porUser(\""+user_id+"\",\""+texto+"\");");
             this.datos=this.consulta.executeQuery();
             while(this.datos.next()){
@@ -273,6 +285,7 @@ public class Servicios extends SQLQuery{
     public void buscarPorCiudad( int user_id, String texto, DefaultListModel model){
         try{
             this.conectar("localhost:3306", "mensajeria","root","1234");
+            //this.conectar("192.168.43.21:3306", "mensajeria","mensajeria","1234");
             this.consulta=this.conexion.prepareStatement("call buscar_contacto_porCiudad(\""+user_id+"\",\""+texto+"\");");
             this.datos=this.consulta.executeQuery();
             while(this.datos.next()){
@@ -288,6 +301,7 @@ public class Servicios extends SQLQuery{
     public void cargar_chats_grupo(JList chat_lista, int user_id){
         try{
             this.conectar("localhost:3306", "mensajeria","root","1234");
+            //this.conectar("192.168.43.21:3306", "mensajeria","mensajeria","1234");
             this.consulta=this.conexion.prepareStatement("call consultar_chatsEnGrupo(\""+user_id+"\");");
             this.datos=this.consulta.executeQuery();
             DefaultListModel modelo = new DefaultListModel();
@@ -305,6 +319,7 @@ public class Servicios extends SQLQuery{
     public void cargar_chats_personales(JList lista, int user_id){
         try{
             this.conectar("localhost:3306", "mensajeria","root","1234");
+            //this.conectar("192.168.43.21:3306", "mensajeria","mensajeria","1234");
             this.consulta=this.conexion.prepareStatement("call consultar_chatsPersonales(\""+user_id+"\");");
             this.datos=this.consulta.executeQuery();
             DefaultListModel modelo = new DefaultListModel();
@@ -323,6 +338,7 @@ public class Servicios extends SQLQuery{
         String str;
         try{
             this.conectar("localhost:3306", "mensajeria","root","1234");
+            ////this.conectar("192.168.43.21:3306", "mensajeria","mensajeria","1234");
             this.consulta=this.conexion.prepareStatement("call historial_chatsEnGrupo(\""+user_id+"\",\""+nombre_grupo+"\");");
             this.datos=this.consulta.executeQuery();
             DefaultListModel modelo = new DefaultListModel();
