@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import sd_activeMQ.Sender;
 /**
  *
  * @author User
@@ -109,6 +110,11 @@ public class Principal extends javax.swing.JFrame {
         Grupos = new javax.swing.JPanel();
         jScrollPane_chats = new javax.swing.JScrollPane();
         lista_chat_grupo = new javax.swing.JList();
+        Panel_rend = new javax.swing.JPanel();
+        btnMil = new javax.swing.JButton();
+        btnCincuentaMil = new javax.swing.JButton();
+        btnCien = new javax.swing.JButton();
+        btn_diezMil = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu5 = new javax.swing.JMenu();
         m_perfil = new javax.swing.JMenuItem();
@@ -122,6 +128,8 @@ public class Principal extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        menu_gruposAdmin = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
 
@@ -236,6 +244,7 @@ public class Principal extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("         CONTACTOS         ", Panel_contactos);
 
+        Panel_chats.setRequestFocusEnabled(false);
         Panel_chats.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Panel_chatsMouseClicked(evt);
@@ -326,6 +335,70 @@ public class Principal extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("                CHATS             ", Panel_chats);
 
+        Panel_rend.setRequestFocusEnabled(false);
+        Panel_rend.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Panel_rendMouseClicked(evt);
+            }
+        });
+
+        btnMil.setText("1000 Mensajes");
+        btnMil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMilActionPerformed(evt);
+            }
+        });
+
+        btnCincuentaMil.setText("50000 Mensajes");
+        btnCincuentaMil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCincuentaMilActionPerformed(evt);
+            }
+        });
+
+        btnCien.setText("100 Mensajes");
+        btnCien.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCienActionPerformed(evt);
+            }
+        });
+
+        btn_diezMil.setText("10000 Mensajes");
+        btn_diezMil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_diezMilActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout Panel_rendLayout = new javax.swing.GroupLayout(Panel_rend);
+        Panel_rend.setLayout(Panel_rendLayout);
+        Panel_rendLayout.setHorizontalGroup(
+            Panel_rendLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Panel_rendLayout.createSequentialGroup()
+                .addGap(108, 108, 108)
+                .addComponent(btnCien)
+                .addGap(65, 65, 65)
+                .addComponent(btnMil)
+                .addGap(64, 64, 64)
+                .addComponent(btn_diezMil)
+                .addGap(56, 56, 56)
+                .addComponent(btnCincuentaMil)
+                .addContainerGap(87, Short.MAX_VALUE))
+        );
+        Panel_rendLayout.setVerticalGroup(
+            Panel_rendLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Panel_rendLayout.createSequentialGroup()
+                .addContainerGap(141, Short.MAX_VALUE)
+                .addGroup(Panel_rendLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnMil, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCincuentaMil, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCien, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_diezMil, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(104, 104, 104))
+        );
+
+        jTabbedPane1.addTab("             RENDIMIENTO          ", Panel_rend);
+
         jMenu5.setText("Perfil");
         jMenu5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -400,6 +473,16 @@ public class Principal extends javax.swing.JFrame {
 
         jMenuItem2.setText("Modificar Grupo");
         jMenu2.add(jMenuItem2);
+        jMenu2.add(jSeparator2);
+
+        menu_gruposAdmin.setText("Grupos Admin");
+        menu_gruposAdmin.setToolTipText("");
+        menu_gruposAdmin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu_gruposAdminActionPerformed(evt);
+            }
+        });
+        jMenu2.add(menu_gruposAdmin);
 
         jMenuBar1.add(jMenu2);
 
@@ -438,28 +521,6 @@ public class Principal extends javax.swing.JFrame {
     private void User_fotoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_User_fotoFocusGained
         // TODO add your handling code here:
     }//GEN-LAST:event_User_fotoFocusGained
-
-    private void lista_chat_grupoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lista_chat_grupoMouseClicked
-        // TODO add your handling code here:
-        String nombreGrupo = (String)lista_chat_grupo.getSelectedValue();
-        if (evt.getClickCount() == 2){
-            new Chat(this.u_id ,this.s, nombreGrupo);
-        }
-    }//GEN-LAST:event_lista_chat_grupoMouseClicked
-
-    private void contactos_listaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contactos_listaMouseClicked
-        // TODO add your handling code here:
-        String info = (String)contactos_lista.getSelectedValue();
-        if (evt.getClickCount() == 2){
-            try {
-                Chat ch = new Chat(info, this.u_id ,this.s, user, chatsActivos);
-                //Chat ch = new Chat("Joyce Sarmiento", this.u_id ,this.s, user, chatsActivos);
-                this.addChattoChatList(ch);
-            } catch (IOException ex) {
-                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }//GEN-LAST:event_contactos_listaMouseClicked
 
     private void m_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_buscarActionPerformed
           java.awt.EventQueue.invokeLater(new Runnable() {
@@ -505,23 +566,6 @@ public class Principal extends javax.swing.JFrame {
     
     
     
-    private void lista_chat_personalesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lista_chat_personalesMouseClicked
-        // TODO add your handling code here:
-        String info = (String)lista_chat_personales.getSelectedValue();
-        if (evt.getClickCount() == 2){
-            try {
-                Chat c= new Chat(info, this.u_id ,this.s, user, chatsActivos);
-                this.addChattoChatList(c);
-            } catch (IOException ex) {
-                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }//GEN-LAST:event_lista_chat_personalesMouseClicked
-
-    private void Panel_chatsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Panel_chatsMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_Panel_chatsMouseClicked
-
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_formMouseClicked
@@ -562,14 +606,103 @@ public class Principal extends javax.swing.JFrame {
                     });// TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
+    private void menu_gruposAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_gruposAdminActionPerformed
+        java.awt.EventQueue.invokeLater(new Runnable() {
+                        public void run() {
+                            new Grupos_Admin(s, u_id).setVisible(true);                         
+                        }
+                    });// TODO add your handling code here:
+    }//GEN-LAST:event_menu_gruposAdminActionPerformed
+
+    private void Panel_chatsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Panel_chatsMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Panel_chatsMouseClicked
+
+    private void lista_chat_grupoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lista_chat_grupoMouseClicked
+        // TODO add your handling code here:
+        String nombreGrupo = (String)lista_chat_grupo.getSelectedValue();
+        if (evt.getClickCount() == 2){
+            new Chat(this.u_id ,this.s, nombreGrupo);
+        }
+    }//GEN-LAST:event_lista_chat_grupoMouseClicked
+
+    private void lista_chat_personalesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lista_chat_personalesMouseClicked
+        // TODO add your handling code here:
+        String info = (String)lista_chat_personales.getSelectedValue();
+        if (evt.getClickCount() == 2){
+            try {
+                Chat c= new Chat(info, this.u_id ,this.s, user, chatsActivos);
+                this.addChattoChatList(c);
+            } catch (IOException ex) {
+                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_lista_chat_personalesMouseClicked
+
+    private void contactos_listaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contactos_listaMouseClicked
+        // TODO add your handling code here:
+        String info = (String)contactos_lista.getSelectedValue();
+        if (evt.getClickCount() == 2){
+            try {
+                Chat ch = new Chat(info, this.u_id ,this.s, user, chatsActivos);
+                //Chat ch = new Chat("Joyce Sarmiento", this.u_id ,this.s, user, chatsActivos);
+                this.addChattoChatList(ch);
+            } catch (IOException ex) {
+                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_contactos_listaMouseClicked
+
+    private void Panel_rendMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Panel_rendMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Panel_rendMouseClicked
+
+    private void btnMilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMilActionPerformed
+        java.awt.EventQueue.invokeLater(new Runnable() {
+                        public void run() {
+                            new Rendimiento(1000).setVisible(true);                         
+                        }
+                    });
+
+    }//GEN-LAST:event_btnMilActionPerformed
+
+    private void btnCincuentaMilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCincuentaMilActionPerformed
+        java.awt.EventQueue.invokeLater(new Runnable() {
+                        public void run() {
+                            new Rendimiento(50000).setVisible(true);                         
+                        }
+                    });// TODO add your handling code here:
+    }//GEN-LAST:event_btnCincuentaMilActionPerformed
+
+    private void btnCienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCienActionPerformed
+        java.awt.EventQueue.invokeLater(new Runnable() {
+                        public void run() {
+                            new Rendimiento(100).setVisible(true);                         
+                        }
+                    });// TODO add your handling code here:
+    }//GEN-LAST:event_btnCienActionPerformed
+
+    private void btn_diezMilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_diezMilActionPerformed
+        java.awt.EventQueue.invokeLater(new Runnable() {
+                        public void run() {
+                            new Rendimiento(10000).setVisible(true);                         
+                        }
+                    });// TODO add your handling code here:
+    }//GEN-LAST:event_btn_diezMilActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Grupos;
     private javax.swing.JPanel Panel_chats;
     private javax.swing.JPanel Panel_contactos;
+    private javax.swing.JPanel Panel_rend;
     private javax.swing.JPanel Personales;
     private javax.swing.JLabel User_foto;
     private javax.swing.JLabel User_name_label1;
     private javax.swing.JLabel User_name_label2;
+    private javax.swing.JButton btnCien;
+    private javax.swing.JButton btnCincuentaMil;
+    private javax.swing.JButton btnMil;
+    private javax.swing.JButton btn_diezMil;
     private javax.swing.JList contactos_lista;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
@@ -588,6 +721,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane_chats1;
     private javax.swing.JScrollPane jScrollPane_contactos;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JList lista_chat_grupo;
     private javax.swing.JList lista_chat_personales;
@@ -596,6 +730,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem m_five;
     private javax.swing.JMenuItem m_logout;
     private javax.swing.JMenuItem m_perfil;
+    private javax.swing.JMenuItem menu_gruposAdmin;
     // End of variables declaration//GEN-END:variables
 
     private Image createImageIcon(String resourcesjava_iconpng, String java) {
