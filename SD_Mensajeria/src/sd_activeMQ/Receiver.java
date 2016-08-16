@@ -96,7 +96,7 @@ public class Receiver implements MessageListener{
         System.out.println("Emisor: " + mensajeSplit[0] + "\n" + "Mensaje: " + mensajeSplit[1]);
         //busco chat abierto
         Chat c = searchChat( mensajeSplit[0]); // envío el emisor del chat
-        c.addChatToList(mensajeSplit[1]); // agrego mensaje a la lista
+        c.addChatToList(mensajeSplit[0], mensajeSplit[1]); // agrego mensaje a la lista
         c.setVisible(true);
         
      } catch (JMSException jmse) {

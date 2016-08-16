@@ -271,6 +271,10 @@ public class Chat extends javax.swing.JFrame {
                } catch (Exception ex) {
                    Logger.getLogger(Chat.class.getName()).log(Level.SEVERE, null, ex);
                }
+               
+               addChatToList("Tu", Txt_texto.getText());
+               Txt_texto.setText(""); // limpiamos txt texto
+                       
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -291,10 +295,9 @@ public class Chat extends javax.swing.JFrame {
     }
 
     //método que añade nuevos mensajes a la lista de chats
-    public void addChatToList(String chat){
-        DefaultListModel<String> model = new DefaultListModel<>();
-        lista_mensajes = new JList<>( model );
-         model.addElement( chat );
+    public void addChatToList(String emisor, String mensaje){
+        DefaultListModel modelRecargar = (DefaultListModel) lista_mensajes.getModel();
+        modelRecargar.addElement(emisor + ": " + mensaje);
         
     }
 
