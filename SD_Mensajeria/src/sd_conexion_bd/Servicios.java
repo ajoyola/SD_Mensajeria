@@ -22,6 +22,7 @@ import java.sql.CallableStatement;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -403,6 +404,21 @@ public class Servicios extends SQLQuery{
             Logger.getLogger(Servicios.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "No se pudo conectar correctamente a la base de datos");
         }
+    }
+    
+    public boolean ingresarNuevoMensaje(int emiID, int destID, char tipoGrupo, Date fechaMensaje, String mensaje, int gID){
+        try{
+            //this.conectar("localhost:3306", "mensajeria","root","12345");
+            this.conectar("localhost:3306", "mensajeria","mensajeria","1234");
+            this.consulta=this.conexion.prepareStatement("call ingresarMensaje(\""+emiID+"\",\""+destID+"\",\""+tipoGrupo+"\",\""+fechaMensaje+"\",\""+mensaje+"\",\""+gID+"\");");
+            this.datos=this.consulta.executeQuery();
+            return true;
+        }
+        catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(Servicios.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "No se pudo conectar correctamente a la base de datos");
+        }
+        return false; 
     }
     
 }

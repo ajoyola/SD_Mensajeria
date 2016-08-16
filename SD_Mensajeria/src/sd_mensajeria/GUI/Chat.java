@@ -8,6 +8,7 @@ package sd_mensajeria.GUI;
 import java.awt.Image;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -25,7 +26,9 @@ import sd_mensajeria.usuario;
 public class Chat extends javax.swing.JFrame {
     usuario contacto = new usuario();
     usuario emisor = new usuario();
+    int user_ID;
     ArrayList <Chat> chatsActivos = new ArrayList <Chat> ();
+    int tipo;
     /**
      * Creates new form Chat
      */
@@ -41,6 +44,8 @@ public class Chat extends javax.swing.JFrame {
         setVisible(true);
         User_foto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/librerias/grupo-chat.jpg"))); 
         User_foto.setSize(126, 129);
+        this.tipo=0;
+        this.user_ID= userID;
     }
     public Chat(String info, int userID, Servicios serv, usuario user, ArrayList <Chat> chats) throws IOException {
 // info del usuario sera colocada como nombre y su respectivo estado de conexion, el historial y foto
@@ -48,6 +53,8 @@ public class Chat extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         super.setTitle("JavaChat");
         emisor = user; // seteo datos del usuario logeado
+        this.tipo=1;
+        this.user_ID= userID;
         chatsActivos = chats; // seteo lista de chats activas pasada desde GUI principal
         String contInfo[] = info.split(" ", 3);//obtiene por separado el nombre y el apellido
         if(serv.dato_contacto(contInfo[0],contInfo[1],contacto)){
@@ -296,9 +303,20 @@ public class Chat extends javax.swing.JFrame {
 
     //método que añade nuevos mensajes a la lista de chats
     public void addChatToList(String emisor, String mensaje){
+        DefaultListModel info_emisor=new DefaultListModel();
         DefaultListModel modelRecargar = (DefaultListModel) lista_mensajes.getModel();
-        modelRecargar.addElement(emisor + ": " + mensaje);
         
+        Servicios s=new Servicios();
+        s.buscarPorUser(this.user_ID, emisor, info_emisor);//devuelve el nombre y el user        
+        String nombreContacto=(String) info_emisor.getElementAt(0);
+        String nombreCompleto[]= nombreContacto.split("    >>> ",2);
+        
+        modelRecargar.addElement(nombreCompleto[0] + ": " + mensaje);
+        if(this.tipo==1){
+            s.ingresarNuevoMensaje(this.emisor.getID(), this.contacto.getID(), 'P', new Date(), mensaje, 0);
+        }else if(this.tipo==0){ //falta encontrar el grupo por el nombre
+            s.ingresarNuevoMensaje(this.emisor.getID(), this.contacto.getID(), 'G', new Date(), mensaje, 0);
+        }
     }
 
     /**

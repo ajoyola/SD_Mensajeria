@@ -312,7 +312,11 @@ public class Registro extends javax.swing.JFrame {
              // this.setVisible(false);
               java.awt.EventQueue.invokeLater(new Runnable() {
                         public void run() {
-                           new Principal(s, null, UsuarioInfo, chatsActivos).setVisible(true);                          
+                            try {                          
+                                new Principal(s, null, UsuarioInfo, chatsActivos).setVisible(true);
+                            } catch (IOException ex) {
+                                Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                         }
                     }); 
           }
