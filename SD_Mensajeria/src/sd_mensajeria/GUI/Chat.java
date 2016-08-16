@@ -307,16 +307,17 @@ public class Chat extends javax.swing.JFrame {
         DefaultListModel modelRecargar = (DefaultListModel) lista_mensajes.getModel();
         
         Servicios s=new Servicios();
-        s.buscarPorUser(this.user_ID, emisor, info_emisor);//devuelve el nombre y el user        
-        String nombreContacto=(String) info_emisor.getElementAt(0);
-        String nombreCompleto[]= nombreContacto.split("    >>> ",2);
+        //s.buscarPorUser(this.user_ID, emisor, info_emisor);//devuelve el nombre y el user        
+        //String nombreContacto=(String) info_emisor.getElementAt(0);
+        //String nombreCompleto[]= nombreContacto.split("    >>> ",2);
         
-        modelRecargar.addElement(nombreCompleto[0] + ": " + mensaje);
-        if(this.tipo==1){
+        //modelRecargar.addElement(nombreCompleto[0] + ": " + mensaje);
+        modelRecargar.addElement(emisor + ": " + mensaje);
+        /*if(this.tipo==1){
             s.ingresarNuevoMensaje(this.emisor.getID(), this.contacto.getID(), 'P', new Date(), mensaje, 0);
         }else if(this.tipo==0){ //falta encontrar el grupo por el nombre
             s.ingresarNuevoMensaje(this.emisor.getID(), this.contacto.getID(), 'G', new Date(), mensaje, 0);
-        }
+        }*/
     }
 
     /**

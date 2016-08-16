@@ -45,7 +45,9 @@ public class Principal extends javax.swing.JFrame {
         contactos_lista.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jScrollPane_contactos.setViewportView(contactos_lista);
         for(int i = 0; i< contactos_lista.getModel().getSize(); i++){ //cargo lista de chats con todos los contactos 
-            chatsActivos.add(new Chat(contactos_lista.getModel().getElementAt(i).toString(), this.u_id, this.s, this.user, this.chatsActivos) );
+            Chat c = new Chat(contactos_lista.getModel().getElementAt(i).toString(), this.u_id, this.s, this.user, this.chatsActivos);
+            c.hide();
+            chatsActivos.add(c);
             System.out.println(chatsActivos.get(i).getEmisor().getUser() + " - " + chatsActivos.get(i).getContacto().getUser());
         }
         
