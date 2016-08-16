@@ -28,7 +28,7 @@ public class Principal extends javax.swing.JFrame {
     /**
      * Creates new form Principal
      */
-    public Principal(Servicios serv, String datos, usuario UserInfo, ArrayList <Chat> chats) {
+    public Principal(Servicios serv, String datos, usuario UserInfo, ArrayList <Chat> chats) throws IOException {
         super("JavaChat");
         initComponents();
         this.setLocationRelativeTo(null);
@@ -44,6 +44,11 @@ public class Principal extends javax.swing.JFrame {
         s.cargar_contactos(contactos_lista, userName, u_id);
         contactos_lista.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jScrollPane_contactos.setViewportView(contactos_lista);
+        for(int i = 0; i< contactos_lista.getModel().getSize(); i++){ //cargo lista de chats con todos los contactos 
+            chatsActivos.add(new Chat(contactos_lista.getModel().getElementAt(i).toString(), this.u_id, this.s, this.user, this.chatsActivos) );
+            System.out.println(chatsActivos.get(i).getEmisor().getUser() + " - " + chatsActivos.get(i).getContacto().getUser());
+        }
+        
         //muestra lista de chats entre dos personas que tiene el usuario
         actualizar_lista(jScrollPane_chats1, lista_chat_personales, 1); 
         //cargar tab con lista de todos los chats grupales que tiene el usuario

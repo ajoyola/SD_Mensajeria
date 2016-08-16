@@ -218,7 +218,11 @@ public class Inicio_Sesion extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, "Bienvenid@!! " + datos,"Mensaje", JOptionPane.INFORMATION_MESSAGE);
                         java.awt.EventQueue.invokeLater(new Runnable() {
                             public void run() {
-                                new Principal(s, datos, UsuarioInfo, chatsActivos).setVisible(true);
+                                try {
+                                    new Principal(s, datos, UsuarioInfo, chatsActivos).setVisible(true);
+                                } catch (IOException ex) {
+                                    Logger.getLogger(Inicio_Sesion.class.getName()).log(Level.SEVERE, null, ex);
+                                }
                             }
                         });
                     }else{//user incorrecto

@@ -1,10 +1,8 @@
 package sd_activeMQ;
 
 import java.util.Properties;
-
 import javax.naming.Context;
 import javax.naming.InitialContext;
-
 import javax.jms.Queue;
 import javax.jms.Session;
 import javax.jms.TextMessage;
