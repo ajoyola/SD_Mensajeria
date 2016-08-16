@@ -27,6 +27,7 @@ import javax.crypto.interfaces.*;
 import javax.crypto.spec.*;
 import org.apache.commons.codec.digest.DigestUtils;
 import sd_activeMQ.Receiver;
+import sd_activeMQ.ReceiverGrupo;
 
 
 /**
@@ -211,6 +212,7 @@ public class Inicio_Sesion extends javax.swing.JFrame {
                         try {
                             // TODO add your handling code here:
                             Receiver r = new Receiver(user, chatsActivos); // id+username del usuario que inicia sesión
+                            ReceiverGrupo rg = new ReceiverGrupo(user, chatsActivos); // id+username del usuario que inicia sesión
                         } catch (Exception ex) {
                             Logger.getLogger(Inicio_Sesion.class.getName()).log(Level.SEVERE, null, ex);
                         }

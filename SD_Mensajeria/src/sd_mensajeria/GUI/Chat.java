@@ -16,6 +16,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import sd_activeMQ.Sender;
+import sd_activeMQ.SenderGrupo;
 import sd_conexion_bd.Servicios;
 import sd_mensajeria.usuario;
 
@@ -272,15 +273,28 @@ public class Chat extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:  
-        Sender s = new Sender("Angely"); // id+uername del que envía el mensaje
+        if(tipo == 1){ //mensaje par par
+            Sender s = new Sender("Angely"); // id+uername del que envía el mensaje
                try {
                    s.sendMessage(Txt_texto.getText(), contacto.getUser(), emisor.getUser()); 
                } catch (Exception ex) {
                    Logger.getLogger(Chat.class.getName()).log(Level.SEVERE, null, ex);
                }
-               
-               addChatToList("Tu", Txt_texto.getText());
-               Txt_texto.setText(""); // limpiamos txt texto
+        
+        }
+        
+        if(tipo == 0){ //mensaje en grupo
+            SenderGrupo sg = new SenderGrupo("Angely");
+                try {
+                   sg.sendMessage(Txt_texto.getText()); 
+                   
+               } catch (Exception ex) {
+                   Logger.getLogger(Chat.class.getName()).log(Level.SEVERE, null, ex);
+               }
+        }
+
+        addChatToList("Tu", Txt_texto.getText());
+        Txt_texto.setText(""); // limpiamos txt texto
                        
     }//GEN-LAST:event_jButton3ActionPerformed
 
