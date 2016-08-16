@@ -26,11 +26,12 @@ public class usuario {
     public usuario() {
     }
 
-    public usuario(String nombre, String apellido, String user, String ciudad) {
+    public usuario(String nombre, String apellido, String user, String ciudad,ImageIcon foto) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.user = user;
         this.ciudad = ciudad;
+        this.foto= foto;
     }
     public char getEst_conexion() {
         return est_conexion;

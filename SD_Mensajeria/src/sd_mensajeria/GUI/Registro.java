@@ -5,16 +5,20 @@
  */
 package sd_mensajeria.GUI;
 
+import java.awt.Image;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import org.apache.commons.codec.digest.DigestUtils;
 import sd_conexion_bd.Servicios;
 import sd_mensajeria.usuario;
 
@@ -265,7 +269,7 @@ public class Registro extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-          final Servicios s = new Servicios(); 
+       final Servicios s = new Servicios(); 
           String nombre,apellido,ciudad,user,pass;
           String foto;
           
@@ -275,53 +279,81 @@ public class Registro extends javax.swing.JFrame {
           pass = txtpass.getText();
           ciudad = (String)jComboBox1.getSelectedItem();
           foto = txtFoto.getText();
-          System.out.println("Valor de Fto :" + foto);
-          
-          //System.out.println(nombre+" "+apellido+" "+user+" "+pass+" "+ciudad);
           
           if(nombre==null && apellido==null && ciudad==null && user==null && pass==null){
               JOptionPane.showMessageDialog(null, "Debe llenar todos los campos", "No ha ingresado datos", JOptionPane.ERROR_MESSAGE);
           }
           else
           {    
-                if("Ruta Foto".equals(foto)){
-                    try {
-                        s.registrar_usuario(nombre,apellido,ciudad,user,pass,"");
-                    } catch (FileNotFoundException ex) {
-                        Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (IOException ex) {
-                        Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-                else{
-                    try {
-                        s.registrar_usuario(nombre,apellido,ciudad,user,pass,foto);
-                    } catch (FileNotFoundException ex) {
-                        Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (IOException ex) {
-                        Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-              txtNombre.setText("");
-              txtApellido.setText("");
-              txtUsuario.setText("");
-              txtpass.setText("");
-              txtFoto.setText("");
-              final usuario UsuarioInfo = new usuario(nombre,apellido,user,ciudad);
-              this.dispose();
-             // this.setVisible(false);
-              java.awt.EventQueue.invokeLater(new Runnable() {
-                        public void run() {
-                            try {                          
-                                new Principal(s, null, UsuarioInfo, chatsActivos).setVisible(true);
-                            } catch (IOException ex) {
-                                Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        }
-                    }); 
+              String semilla="2016";
+              String encript=DigestUtils.sha1Hex(pass+semilla);
+                
+              if("Ruta Foto".equals(foto)){
+              
+                  //System.out.println("Ninguna foto seleccionada..");
+                  try {
+                      s.registrar_usuario(nombre,apellido,ciudad,user,encript,"C:\\Users\\Kattya Desiderio\\Documents\\GitHub\\SD_Mensajeria\\SD_Mensajeria\\src\\sd_conexion_bd\\avatar.jpg");
+                  } catch (ClassNotFoundException ex) {
+                      Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
+                  } catch (SQLException ex) {
+                      Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
+                  } catch (FileNotFoundException ex) {
+                      Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
+                  }
+              
+              }
+              else{
+                  //System.out.println("Selecciono Foto...");
+                  try {
+                      s.registrar_usuario(nombre,apellido,ciudad,user,encript,foto);
+                  } catch (IOException ex) {
+                      Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
+                  } catch (ClassNotFoundException ex) {
+                      Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
+                  } catch (SQLException ex) {
+                      Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
+                  }
+              
+              }
+              File file= null;
+              if("Ruta Foto".equals(foto)){
+              file= new File("C:\\Users\\Kattya Desiderio\\Documents\\GitHub\\SD_Mensajeria\\SD_Mensajeria\\src\\sd_conexion_bd\\avatar.jpg");
+              }
+              else{
+              file= new File(foto);
+              }
+              Image im;
+              try {
+                  im = javax.imageio.ImageIO.read(file);
+                  ImageIcon i = new ImageIcon(im.getScaledInstance(100,120, 0));
+              
+                    final usuario UsuarioInfo = new usuario(nombre,apellido,user,ciudad,i);
+
+                    txtNombre.setText("");
+                    txtApellido.setText("");
+                    txtUsuario.setText("");
+                    txtpass.setText("");
+                    txtFoto.setText("");
+
+                    this.dispose();
+                   // this.setVisible(false);
+                    java.awt.EventQueue.invokeLater(new Runnable() {
+                              public void run() {
+                                  try {                          
+                                      new Principal(s, null, UsuarioInfo, chatsActivos).setVisible(true);
+                                  } catch (IOException ex) {
+                                      Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
+                                  }
+                              }
+                          }); 
+              } catch (IOException ex) {
+                  Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
+              }
+              
           }
          
           
+     
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void txtUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsuarioActionPerformed
@@ -334,7 +366,7 @@ public class Registro extends javax.swing.JFrame {
         int result = fileChooser.showOpenDialog(this);
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
-            System.out.println("Selected file: " + selectedFile.getAbsolutePath());
+            //System.out.println("Selected file: " + selectedFile.getAbsolutePath());
             txtFoto.setText(selectedFile.getAbsolutePath());
         }
         
