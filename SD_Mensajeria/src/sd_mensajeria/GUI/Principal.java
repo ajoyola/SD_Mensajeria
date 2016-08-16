@@ -58,10 +58,12 @@ public class Principal extends javax.swing.JFrame {
         actualizar_lista(jScrollPane_chats, lista_chat_grupo, 2);        
     }
     public void actualizar_lista(JScrollPane jspane, JList lista, int tipo){
-        if(tipo==2){
+         if(tipo==2){
             s.cargar_chats_grupo(lista, u_id);
-        } else{ 
-            s.cargar_chats_personales(lista, u_id);
+        } else if(tipo==3){ 
+            s.cargar_contactos(contactos_lista, this.user.getUser(), u_id);
+        }else{
+           s.cargar_chats_personales(lista, u_id);
         }
         lista.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jspane.setViewportView(lista);
@@ -533,7 +535,7 @@ public class Principal extends javax.swing.JFrame {
     private void m_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_agregarActionPerformed
         java.awt.EventQueue.invokeLater(new Runnable() {
                         public void run() {
-                            new Agregar_Contacto().setVisible(true);                         
+                            new Agregar_Contacto(s,user.user,u_id).setVisible(true);                         
                         }
                     }); 
     }//GEN-LAST:event_m_agregarActionPerformed
@@ -574,6 +576,7 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
         actualizar_lista(jScrollPane_chats1, lista_chat_personales, 1); 
         actualizar_lista(jScrollPane_chats, lista_chat_grupo, 2);
+        actualizar_lista(jScrollPane_contactos,contactos_lista , 3);;
     }//GEN-LAST:event_formWindowGainedFocus
 
     private void m_perfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_perfilActionPerformed

@@ -322,36 +322,50 @@ public class Registro extends javax.swing.JFrame {
               else{
               file= new File(foto);
               }
-              Image im;
-              try {
-                  im = javax.imageio.ImageIO.read(file);
+              Image im = null;
+              
+           try {
+               im = javax.imageio.ImageIO.read(file);
+           } catch (IOException ex) {
+               Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
+           }
                   ImageIcon i = new ImageIcon(im.getScaledInstance(100,120, 0));
               
-                    final usuario UsuarioInfo = new usuario(nombre,apellido,user,ciudad,i);
-
-                    txtNombre.setText("");
-                    txtApellido.setText("");
-                    txtUsuario.setText("");
-                    txtpass.setText("");
-                    txtFoto.setText("");
-
-                    this.dispose();
+                    final usuario UsuarioInfo = new usuario();
+                    
+           try {
+               if(s.validar_userName(user,encript, UsuarioInfo)){
+                   
+                   txtNombre.setText("");
+                   txtApellido.setText("");
+                   txtUsuario.setText("");
+                   txtpass.setText("");
+                   txtFoto.setText("");
+                   
+                   this.dispose();
                    // this.setVisible(false);
-                    java.awt.EventQueue.invokeLater(new Runnable() {
-                              public void run() {
-                                  try {                          
-                                      new Principal(s, null, UsuarioInfo, chatsActivos).setVisible(true);
-                                  } catch (IOException ex) {
-                                      Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
-                                  }
-                              }
-                          }); 
-              } catch (IOException ex) {
-                  Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
-              }
+                   java.awt.EventQueue.invokeLater(new Runnable() {
+                       public void run() {
+                           try {
+                               
+                               Principal p=new Principal(s, null, UsuarioInfo, chatsActivos);
+                               
+                               p.setVisible(true);
+                           } catch (IOException ex) {
+                               Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
+                           }
+                       }
+                   });
+               }
+           } catch (IOException ex) {
+               Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
+           }
+                      
+                     
+
               
           }
-         
+       
           
      
     }//GEN-LAST:event_jButton1ActionPerformed
