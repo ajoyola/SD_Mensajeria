@@ -111,10 +111,12 @@ public class Principal extends javax.swing.JFrame {
         m_agregar = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         m_five = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
 
         jMenu3.setText("jMenu3");
 
@@ -247,7 +249,7 @@ public class Principal extends javax.swing.JFrame {
         Personales.setLayout(PersonalesLayout);
         PersonalesLayout.setHorizontalGroup(
             PersonalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 908, Short.MAX_VALUE)
+            .addGap(0, 912, Short.MAX_VALUE)
             .addGroup(PersonalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(PersonalesLayout.createSequentialGroup()
                     .addContainerGap()
@@ -278,7 +280,7 @@ public class Principal extends javax.swing.JFrame {
         Grupos.setLayout(GruposLayout);
         GruposLayout.setHorizontalGroup(
             GruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 908, Short.MAX_VALUE)
+            .addGap(0, 912, Short.MAX_VALUE)
             .addGroup(GruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(GruposLayout.createSequentialGroup()
                     .addContainerGap()
@@ -369,6 +371,14 @@ public class Principal extends javax.swing.JFrame {
         });
         jMenu1.add(m_five);
 
+        jMenuItem3.setText("Ultimos mensajes");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem3);
+
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Grupo");
@@ -386,7 +396,16 @@ public class Principal extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu2);
 
-        jMenu6.setText("About");
+        jMenu6.setText("Mas");
+
+        jMenuItem4.setText("About");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem4);
+
         jMenuBar1.add(jMenu6);
 
         setJMenuBar(jMenuBar1);
@@ -476,6 +495,9 @@ public class Principal extends javax.swing.JFrame {
 // TODO add your handling code here:
     }//GEN-LAST:event_m_fiveActionPerformed
 
+    
+    
+    
     private void lista_chat_personalesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lista_chat_personalesMouseClicked
         // TODO add your handling code here:
         String info = (String)lista_chat_personales.getSelectedValue();
@@ -517,6 +539,22 @@ public class Principal extends javax.swing.JFrame {
                         
     }//GEN-LAST:event_m_logoutActionPerformed
 
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        java.awt.EventQueue.invokeLater(new Runnable() {
+                        public void run() {
+                            new Ultimos_msj(s, u_id).setVisible(true);                         
+                        }
+                    });// TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        java.awt.EventQueue.invokeLater(new Runnable() {
+                        public void run() {
+                            new About().setVisible(true);                         
+                        }
+                    });// TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Grupos;
     private javax.swing.JPanel Panel_chats;
@@ -536,6 +574,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane_chats;
     private javax.swing.JScrollPane jScrollPane_chats1;
