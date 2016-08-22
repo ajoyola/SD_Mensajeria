@@ -12,7 +12,6 @@ import javax.jms.QueueSession;
 import javax.jms.QueueConnection;
 import javax.jms.QueueConnectionFactory;
 import sd_mensajeria.usuario;
-
 public class Sender {
 
     public String origen = null;

@@ -29,9 +29,11 @@ import sd_mensajeria.usuario;
 public class Registro extends javax.swing.JFrame {
 
     ArrayList <Chat> chatsActivos;
+    String ruta = null;
     /**
      * Creates new form Registro
      */
+    
     public Registro() {
         super("Java Chat");
         initComponents();

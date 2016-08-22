@@ -38,7 +38,7 @@ public class About extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Angely Oyola");
 
@@ -46,7 +46,7 @@ public class About extends javax.swing.JFrame {
 
         jLabel3.setText("Luis Lucio");
 
-        jLabel4.setText("Katia Desiderio");
+        jLabel4.setText("Kattya Desiderio");
 
         jLabel5.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
         jLabel5.setText("Sistemas Distribuidos");
